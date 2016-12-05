@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="tile_set">
+        <item>-1</item>
+        <item>@drawable/floor</item>
+        <item>@drawable/hole</item>
+        <item>@drawable/wall</item>
+    </integer-array>
+
+</resources>

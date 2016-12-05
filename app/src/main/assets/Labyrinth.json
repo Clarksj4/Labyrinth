@@ -1,0 +1,69 @@
+{"GameObjects":[
+	{
+		"name": "Dwarf",
+		"components":[
+		{"type": "Transform", "properties": []},
+		{"type": "Collider", "properties":[
+			{"name": "Size", "type": "Vector", "values": [30.0, 30.0]}
+			]},
+		{"type": "SpriteRenderer", "properties":[]},
+		{"type": "AnimationController", "properties": [
+			{"name": "Animations", "type": "Animations", "values": ["idle", "running", "falling"]}
+			]},
+		{"type": "Dwarf", "properties": []}
+		],
+	  	"children": [
+		  	{
+			  "name": "Viewport",
+			  "components":[
+				{"type": "Transform", "properties": []},
+				{"type": "Viewport", "properties": []}
+			  ],
+			  "children": [
+				{
+				  "name": "Current Time Text",
+				  "components": [
+					{"type": "Transform", "properties": []}
+				  ]
+				}
+			  ]
+			}
+		]
+	}
+],
+"ResourceIDs":[
+	{"name": "idle_dwarf", "res": "drawable", "package": "bit.clarksj4.labyrinth"},
+	{"name": "running_dwarf_0", "res": "drawable", "package": "bit.clarksj4.labyrinth"},
+	{"name": "running_dwarf_1", "res": "drawable", "package": "bit.clarksj4.labyrinth"},
+	{"name": "hurt_dwarf", "res": "drawable", "package": "bit.clarksj4.labyrinth"},
+	{"name": "door_0", "res": "drawable", "package": "bit.clarksj4.labyrinth"},
+	{"name": "door_1", "res": "drawable", "package": "bit.clarksj4.labyrinth"},
+	{"name": "door_2", "res": "drawable", "package": "bit.clarksj4.labyrinth"},
+	{"name": "door_3", "res": "drawable", "package": "bit.clarksj4.labyrinth"},
+	{"name": "door_4", "res": "drawable", "package": "bit.clarksj4.labyrinth"}
+	
+],
+"Colours":[
+  {"name": }
+],
+"Bitmaps":[
+	{"name": "idle_dwarf", "resID": "idle_dwarf"},
+	{"name": "running_dwarf_0", "resID": "running_dwarf_0"},
+	{"name": "running_dwarf_1", "resID": "running_dwarf_1"},
+	{"name": "hurt_dwarf", "resID": "hurt_dwarf"},
+	{"name": "door_0", "resID": "door_0"},
+	{"name": "door_1", "resID": "door_1"},
+	{"name": "door_2", "resID": "door_2"},
+	{"name": "door_3", "resID": "door_3"},
+	{"name": "door_4", "resID": "door_4"}
+],
+"Animations": [
+	{"name": "idle", "delay": 0.2, "frames": ["idle_dwarf"]},
+	{"name": "running", "delay": 0.2, "frames": ["running_dwarf_0", "running_dwarf_1"]},
+	{"name": "falling", "delay": 0.2, "frames": ["hurt_dwarf"]},
+	{"name": "closed", "delay": 0.2, "frames": ["door_0"]},
+	{"name": "opening", "delay": 0.2, "frames": ["door_0", "door_1", "door_2", "door_3", "door_4"]},
+	{"name": "closing", "delay": 0.2, "frames": ["door_4", "door_3", "door_2", "door_1", "door_0"]},
+	{"name": "closed", "delay": 0.2, "frames": ["door_4"]}
+]
+}
