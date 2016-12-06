@@ -7,6 +7,13 @@ import android.graphics.BitmapFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 
 import bit.clarksj4.labyrinth.Engine.AndroidGame;
 import bit.clarksj4.labyrinth.Engine.AnimationFrame;
@@ -118,8 +125,34 @@ public class LabyrinthWorldLoader extends WorldLoader
         gsonBuilder.registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer());
         Gson gson = gsonBuilder.create();
 
-        String dwarfRunningJSON = gson.toJson(dwarfRunningAnimation, Animation.class);
-        dwarfRunningAnimation = gson.fromJson(dwarfRunningJSON, Animation.class);
+//        String dwarfRunningJSON = gson.toJson(dwarfRunningAnimation, Animation.class);
+
+        try
+        {
+            Writer writer = new FileWriter("Output.json");
+            gson.toJson(dwarfRunningAnimation, Animation.class, writer);
+            writer.close();
+        }
+
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        dwarfRunningAnimation = null;
+
+        try
+        {
+            JsonReader reader = new JsonReader(new FileReader("Output.json"));
+            dwarfRunningAnimation = gson.fromJson(reader, Animation.class);
+        }
+
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+//        dwarfRunningAnimation = gson.fromJson(dwarfRunningJSON, Animation.class);
 
         Animation dwarfHurtAnimation = new Animation("Hurt");
         dwarfHurtAnimation.addKeyFrame(SpriteRenderer.class, 0, "Sprite", hurt);
