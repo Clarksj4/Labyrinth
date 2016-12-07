@@ -2,8 +2,9 @@ package bit.clarksj4.labyrinth.Engine;
 
 import android.graphics.Bitmap;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,15 +13,25 @@ import com.google.gson.GsonBuilder;
  * Created by Stephen on 2/12/2016.
  */
 
-// TODO: Assets takes care of gson
 public class Assets
 {
+    private static Map<String, Object> preferences;
     private static GameContext _context;
     private static Gson gson;
 
+    public static Object getPreference(String name)
+    {
+        return preferences.get(name);
+    }
+
+    public static void setPrefernce(String name, Object value)
+    {
+        preferences.put(name, value);
+    }
+
     public static boolean save(GameObject object)
     {
-        return save(object, GameObject.class, object.getName());
+        return save(object, GameObject.class, object.getName(), true);
     }
 
     public static GameObject load(String name)
@@ -38,9 +49,15 @@ public class Assets
         return gson.fromJson(json, classOfT);
     }
 
+    //
+    // Package private methods
+    //
+
     static void init(GameContext context)
     {
         _context = context;
+
+        preferences = _context.loadPreferences();
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeHierarchyAdapter(AnimationFrame.class, new AnimationFrameSerializer());
@@ -48,40 +65,33 @@ public class Assets
         gson = gsonBuilder.create();
     }
 
-    static boolean save(Object object, Type type, String name)
+    static boolean save(Object object, Type type, String name, boolean overwrite)
     {
         String json = toJson(object, type);
-
-        try
-        {
-            saveJSONToFile(name, json);
-            return true;
-        }
-
-        catch(IOException e) { e.printStackTrace(); }
-
-        return false;
+        return saveJSONToFile(name, json, overwrite);
     }
 
     static <T> T load(String name, Class<T> classOfT)
     {
-        try
-        {
-            String json = getJSONFromFile(name);
-            return fromJson(json, classOfT);
-        }
-
-        catch(IOException e) { e.printStackTrace(); }
-
-        return null;
+        String json = getJSONFromFile(name);
+        return fromJson(json, classOfT);
     }
 
-    private static void saveJSONToFile(String filename, String json) throws IOException
+    static void commit()
     {
-        _context.saveJSONToFile(filename, json);
+        _context.savePreferences(preferences);
     }
 
-    private static String getJSONFromFile(String filename) throws IOException
+    //
+    // Private methods
+    //
+
+    private static boolean saveJSONToFile(String filename, String json, boolean overwrite)
+    {
+        return _context.saveJSONToFile(filename, json, overwrite);
+    }
+
+    private static String getJSONFromFile(String filename)
     {
         return _context.getJSONFromFile(filename);
     }

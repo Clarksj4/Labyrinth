@@ -92,7 +92,7 @@ public class AndroidGame extends Game
             else if(value instanceof String) editor.putString(key, (String)value);
             else if(value instanceof Integer) editor.putInt(key, (int)value);
             else if(value instanceof Boolean) editor.putBoolean(key, (boolean)value);
-            else if(value instanceof Float) editor.putLong(key, (long)value);
+            else if(value instanceof Long) editor.putLong(key, (long)value);
         }
         editor.commit();    // Apply immediately: game is closing
     }

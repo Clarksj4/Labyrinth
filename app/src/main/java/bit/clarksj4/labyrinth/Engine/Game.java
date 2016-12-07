@@ -5,7 +5,7 @@ package bit.clarksj4.labyrinth.Engine;
 /**
  * Game base class. Descend from this class to make a game object for each platform.
  */
-public abstract class Game  implements Time.OnTickListener
+public abstract class Game implements Time.OnTickListener
 {
     /** The default unit size in the game */
     public static final int UNIT = 32;
