@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  * Singleton Time object. Responsible for running the game loop at scheduled intervals and tracking
  * the interval duration
  */
-public class Time implements Runnable
+public class Time
 {
     private static Time instance = new Time();
     private ScheduledExecutorService executorService;
@@ -34,7 +34,7 @@ public class Time implements Runnable
      * Starts this timer with the given delay between updates
      * @param updateFrequency The delay between updates in milliseconds
      */
-    public void start(long updateFrequency)
+    void start(long updateFrequency)
     {
         if (executorService == null &&
                 loop == null)
@@ -56,7 +56,7 @@ public class Time implements Runnable
     /**
      * Resumes this timer after a pause
      */
-    public void resume()
+    void resume()
     {
         if (executorService != null)
         {
@@ -66,7 +66,7 @@ public class Time implements Runnable
                 timeAtLastFrame = SystemClock.elapsedRealtime();
 
                 // Begin the update cycle immediately ( 0 = no initial delay)
-                loop = executorService.scheduleAtFixedRate(this,
+                loop = executorService.scheduleAtFixedRate(new Tick(),
                         0,
                         updateFrequency,
                         TimeUnit.MILLISECONDS);
@@ -77,7 +77,7 @@ public class Time implements Runnable
     /**
      * Pauses the game timer
      */
-    public void pause()
+    void pause()
     {
         if (executorService != null)
         {
@@ -94,7 +94,7 @@ public class Time implements Runnable
     /**
      * Stops the game timer
      */
-    public void stop()
+    void stop()
     {
         if (loop != null)
         {
@@ -109,38 +109,17 @@ public class Time implements Runnable
         }
     }
 
-    @Override
-    public void run()
-    {
-        try
-        {
-            // Update delta time and time at last frame (convert from milliseconds to seconds)
-            deltaTime = (SystemClock.elapsedRealtime() - timeAtLastFrame) / 1000.0f;
-            timeAtLastFrame = SystemClock.elapsedRealtime();
-            elapsedTime = (timeAtLastFrame - startTime) / 1000.0f;
-            iterations++;                           // Number of times this timer has ticked
-
-            for (OnTickListener listener : tickListeners)
-                listener.tick();
-        }
-
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Registers a listener to be notified each time the timer ticks over
      * @param listener The listener to be notified each time the timer ticks
      */
-    public void registerOnTickListener(OnTickListener listener) { tickListeners.add(listener); }
+    void addTickListener(OnTickListener listener) { tickListeners.add(listener); }
 
     /**
      * Removes the given listener from the collection of listeners
      * @param listener The listener to remove from the collection of listeners
      */
-    public void unregisterOnTickListener(OnTickListener listener) { tickListeners.remove(listener); }
+    void removeTickListener(OnTickListener listener) { tickListeners.remove(listener); }
 
     /**
      * The time it took in seconds for the last game frame.
@@ -179,11 +158,35 @@ public class Time implements Runnable
     /**
      * Tick listener interface
      */
-    public interface OnTickListener
+    interface OnTickListener
     {
         /**
          * Called each time the timer updates
          */
         void tick();
+    }
+
+    private class Tick implements Runnable
+    {
+        @Override
+        public void run()
+        {
+            try
+            {
+                // Update delta time and time at last frame (convert from milliseconds to seconds)
+                deltaTime = (SystemClock.elapsedRealtime() - timeAtLastFrame) / 1000.0f;
+                timeAtLastFrame = SystemClock.elapsedRealtime();
+                elapsedTime = (timeAtLastFrame - startTime) / 1000.0f;
+                iterations++;                           // Number of times this timer has ticked
+
+                for (OnTickListener listener : tickListeners)
+                    listener.tick();
+            }
+
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }

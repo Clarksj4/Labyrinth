@@ -67,7 +67,7 @@ public class GameActivity extends AppCompatActivity
         accelerometerListener = new AccelerometerListener();
         sensorManager.registerListener(accelerometerListener, accelerometer, SensorManager.SENSOR_DELAY_GAME);
 
-        game.setIsPaused(false);
+        game.setPaused(false);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class GameActivity extends AppCompatActivity
         // Unregister accelerometer listener
         sensorManager.unregisterListener(accelerometerListener);
 
-        game.setIsPaused(true);
+        game.setPaused(true);
     }
 
     private class AccelerometerListener implements SensorEventListener
@@ -94,8 +94,8 @@ public class GameActivity extends AppCompatActivity
         @Override
         public void surfaceCreated(SurfaceHolder holder)
         {
-            if  (game.getIsStarted())
-                game.setIsPaused(false);
+            if  (game.isStarted())
+                game.setPaused(false);
             else
                 game.start();
         }
@@ -103,6 +103,6 @@ public class GameActivity extends AppCompatActivity
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { /* Nothing! */ }
         @Override
-        public void surfaceDestroyed(SurfaceHolder holder) { game.setIsPaused(true); }
+        public void surfaceDestroyed(SurfaceHolder holder) { game.setPaused(true); }
     }
 }

@@ -5,7 +5,7 @@ package bit.clarksj4.labyrinth.Engine;
 /**
  * Game base class. Descend from this class to make a game object for each platform.
  */
-public abstract class Game implements Time.OnTickListener
+public abstract class Game
 {
     /** The default unit size in the game */
     public static final int UNIT = 32;
@@ -22,7 +22,7 @@ public abstract class Game implements Time.OnTickListener
      */
     public Game()
     {
-        Time.getInstance().registerOnTickListener(this);
+        Time.getInstance().addTickListener(new GameCycle());
         world = new World();
     }
 
@@ -50,19 +50,19 @@ public abstract class Game implements Time.OnTickListener
      * Gets whether the game is currently paused
      * @return Whether the game is currently paused
      */
-    public boolean getIsPaused() { return isPaused; }
+    public boolean isPaused() { return isPaused; }
 
     /**
      * Gets whether the game has started
      * @return Whether the game has started
      */
-    public boolean getIsStarted() { return Time.getInstance().isRunning(); }
+    public boolean isStarted() { return Time.getInstance().isRunning(); }
 
     /**
      * Sets whether the game is currently paused or not
      * @param isPaused Whether the game is currently paused
      */
-    public void setIsPaused(boolean isPaused)
+    public void setPaused(boolean isPaused)
     {
         // If paused state is changing
         if (this.isPaused != isPaused)
@@ -76,17 +76,6 @@ public abstract class Game implements Time.OnTickListener
         }
     }
 
-    @Override
-    public void tick()
-    {
-        world.update();
-
-        Physics.getInstance().update();
-        Graphics.getInstance().draw();
-
-        world.recycle();    // Recycle all destroyed objects now that update is complete
-    }
-
     /**
      * Interface for listening for when the game has ended
      */
@@ -96,5 +85,19 @@ public abstract class Game implements Time.OnTickListener
          * Called when the game has ended.
          */
         void gameOver();
+    }
+
+    private class GameCycle implements Time.OnTickListener
+    {
+        @Override
+        public void tick()
+        {
+            world.update();
+
+            Physics.getInstance().update();
+            Graphics.getInstance().draw();
+
+            world.recycle();    // Recycle all destroyed objects now that update is complete
+        }
     }
 }
