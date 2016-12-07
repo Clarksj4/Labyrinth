@@ -1,5 +1,6 @@
 package bit.clarksj4.labyrinth.Labyrinth;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -9,9 +10,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 
@@ -125,26 +134,25 @@ public class LabyrinthWorldLoader extends WorldLoader
         gsonBuilder.registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer());
         Gson gson = gsonBuilder.create();
 
-//        String dwarfRunningJSON = gson.toJson(dwarfRunningAnimation, Animation.class);
+        String filename = "myfile";
 
-        try
-        {
-            Writer writer = new FileWriter("Output.json");
-            gson.toJson(dwarfRunningAnimation, Animation.class, writer);
-            writer.close();
-        }
-
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
+//        try
+//        {
+//            saveJSONToFile(filename, gson.toJson(dwarfRunningAnimation, Animation.class));
+//        }
+//
+//        catch (IOException e)
+//        {
+//            e.printStackTrace();
+//        }
 
         dwarfRunningAnimation = null;
+        String json = null;
+
 
         try
         {
-            JsonReader reader = new JsonReader(new FileReader("Output.json"));
-            dwarfRunningAnimation = gson.fromJson(reader, Animation.class);
+            json = getJSONFromFile(filename);
         }
 
         catch (IOException e)
@@ -152,7 +160,7 @@ public class LabyrinthWorldLoader extends WorldLoader
             e.printStackTrace();
         }
 
-//        dwarfRunningAnimation = gson.fromJson(dwarfRunningJSON, Animation.class);
+        dwarfRunningAnimation = gson.fromJson(json, Animation.class);
 
         Animation dwarfHurtAnimation = new Animation("Hurt");
         dwarfHurtAnimation.addKeyFrame(SpriteRenderer.class, 0, "Sprite", hurt);
@@ -262,5 +270,31 @@ public class LabyrinthWorldLoader extends WorldLoader
         fastestTimeRenderer.setTextColour(game.getContext().getResources().getColor(R.color.fastest_timer_text_color));
         fastestTimeRenderer.setTextSize(35);
         fastestTimeRenderer.setTextStyle(TextRenderer.TextStyle.BOLD);
+    }
+
+    private void saveJSONToFile(String filename, String json) throws IOException
+    {
+        FileOutputStream outputStream = game.getContext().openFileOutput(filename, Context.MODE_PRIVATE);
+        outputStream.write(json.getBytes());
+        outputStream.close();
+    }
+
+    private String getJSONFromFile(String filename) throws IOException
+    {
+        // Input streams
+        FileInputStream fis = game.getContext().openFileInput(filename);    // Read file as bytes
+        InputStreamReader isr = new InputStreamReader(fis);                 // Read as chars, instead of bytes
+        BufferedReader bufferedReader = new BufferedReader(isr);            // Performance increased
+
+        // Parts to construct entire string contents of file
+        StringBuilder sb = new StringBuilder();
+        String line;
+
+        // Read each line
+        while ((line = bufferedReader.readLine()) != null)
+            sb.append(line);
+
+        // Entire string contents of file
+        return sb.toString();
     }
 }

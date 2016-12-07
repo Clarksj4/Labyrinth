@@ -1,5 +1,7 @@
 package bit.clarksj4.labyrinth.Engine;
 
+// TODO: on game start need to: make timer, init context, display
+
 /**
  * Game base class. Descend from this class to make a game object for each platform.
  */

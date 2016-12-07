@@ -1,55 +1,88 @@
 package bit.clarksj4.labyrinth.Engine;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import com.google.gson.GsonBuilder;
 
 /**
  * Created by Stephen on 2/12/2016.
  */
 
+// TODO: Assets takes care of gson
 public class Assets
 {
-    public static <T extends Serializable> void serialize(T object)
+    private static GameContext _context;
+    private static Gson gson;
+
+    public static boolean save(GameObject object)
     {
+        return save(object, GameObject.class, object.getName());
     }
 
-    /*
-    * This functions converts Bitmap picture to a string which can be
-    * JSONified.
-    * */
-    public String getStringFromBitmap(Bitmap bitmapPicture)
+    public static GameObject load(String name)
     {
-        // 0 = compress for small size, 100 = compress for maximum quality
-        final int COMPRESSION_QUALITY = 100;
-
-        // Output stream
-        ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
-
-        // Compress bitmap
-        bitmapPicture.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY, byteArrayBitmapStream);
-
-        // Convert to byte array
-        byte[] b = byteArrayBitmapStream.toByteArray();
-
-        // Convert to string
-        return Base64.encodeToString(b, Base64.DEFAULT);
+        return load(name, GameObject.class);
     }
 
-    /*
-    * This Function converts the String back to Bitmap
-    * */
-    public Bitmap getBitmapFromString(String stringPicture)
+    public static String toJson(Object object, Type type)
     {
-        byte[] decodedString = Base64.decode(stringPicture, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return gson.toJson(object, type);
+    }
+
+    public static <T> T fromJson(String json, Class<T> classOfT)
+    {
+        return gson.fromJson(json, classOfT);
+    }
+
+    static void init(GameContext context)
+    {
+        _context = context;
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeHierarchyAdapter(AnimationFrame.class, new AnimationFrameSerializer());
+        gsonBuilder.registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer());
+        gson = gsonBuilder.create();
+    }
+
+    static boolean save(Object object, Type type, String name)
+    {
+        String json = toJson(object, type);
+
+        try
+        {
+            saveJSONToFile(name, json);
+            return true;
+        }
+
+        catch(IOException e) { e.printStackTrace(); }
+
+        return false;
+    }
+
+    static <T> T load(String name, Class<T> classOfT)
+    {
+        try
+        {
+            String json = getJSONFromFile(name);
+            return fromJson(json, classOfT);
+        }
+
+        catch(IOException e) { e.printStackTrace(); }
+
+        return null;
+    }
+
+    private static void saveJSONToFile(String filename, String json) throws IOException
+    {
+        _context.saveJSONToFile(filename, json);
+    }
+
+    private static String getJSONFromFile(String filename) throws IOException
+    {
+        return _context.getJSONFromFile(filename);
     }
 }
