@@ -5,13 +5,13 @@ package bit.clarksj4.labyrinth.Engine;
  */
 public abstract class WorldLoader
 {
-    protected AndroidGame game;
+    protected Game game;
 
     /**
      * A new loader object that will load objects to the given game
      * @param game The game that this loader will load objects to
      */
-    public WorldLoader(AndroidGame game) { this.game = game; }
+    public WorldLoader(Game game) { this.game = game; }
 
     /**
      * Loads objects to the given world

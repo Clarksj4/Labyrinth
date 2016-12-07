@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import bit.clarksj4.labyrinth.Engine.AndroidGame;
+import bit.clarksj4.labyrinth.Engine.Game;
 import bit.clarksj4.labyrinth.Labyrinth.LabyrinthWorldLoader;
 
 public class GameActivity extends AppCompatActivity
@@ -22,7 +23,7 @@ public class GameActivity extends AppCompatActivity
     private AccelerometerListener accelerometerListener;
 
     private SurfaceView gameView;
-    private AndroidGame game;
+    private Game game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,7 +43,7 @@ public class GameActivity extends AppCompatActivity
         gameView = (SurfaceView)findViewById(R.id.gameSurfaceView);
         gameView.getHolder().addCallback(new SurfaceHandler());
 
-        game = new AndroidGame(this, gameView);
+        game = Game.Android(this, gameView);
         game.loadWorld(new LabyrinthWorldLoader(game));
     }
 

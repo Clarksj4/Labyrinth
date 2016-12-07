@@ -26,7 +26,7 @@ public class Time
     private int iterations;
 
     /**
-     * Prvivate singleton constructor
+     * Private singleton constructor
      */
     private Time() { tickListeners = new ArrayList<>(); }
 

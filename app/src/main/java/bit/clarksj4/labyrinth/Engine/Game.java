@@ -2,10 +2,13 @@ package bit.clarksj4.labyrinth.Engine;
 
 // TODO: on game start need to: make timer, init context, display
 
+import android.content.Context;
+import android.view.SurfaceView;
+
 /**
  * Game base class. Descend from this class to make a game object for each platform.
  */
-public abstract class Game
+public class Game
 {
     /** The default unit size in the game */
     public static final int UNIT = 32;
@@ -13,15 +16,25 @@ public abstract class Game
     /** How frequently the game updates in milliseconds */
     private static final long UPDATE_FREQUENCY = 30;
 
+    private World world;
     private GameOverListener gameOverListener;
-    protected World world;
     private boolean isPaused;
+    private GameContext context;
+
+    public static Game Android(Context context, SurfaceView view)
+    {
+        Graphics.getInstance().addDisplay(new Display(view, context.getResources().getDisplayMetrics()));
+        return new Game(new AndroidGameContext(context));
+    }
 
     /**
      * A new game
      */
-    public Game()
+    private Game(GameContext context)
     {
+        this.context = context;
+        Assets.init(context);
+
         Time.getInstance().addTickListener(new GameCycle());
         world = new World();
     }
@@ -31,6 +44,9 @@ public abstract class Game
      * @param loader An object that describes what to load into the world
      */
     public void loadWorld(WorldLoader loader) { loader.load(world); }
+
+    public void accelerometerInput(float[] values) { Input.getInstance().setAccelerometerInput(values); }
+
 
     /**
      * Starts the game
@@ -44,7 +60,12 @@ public abstract class Game
     /**
      * Stops the game
      */
-    public void stop() { Time.getInstance().stop(); }
+    public void stop()
+    {
+        Time.getInstance().stop();
+
+        Assets.commit();
+    }
 
     /**
      * Gets whether the game is currently paused
@@ -76,10 +97,15 @@ public abstract class Game
         }
     }
 
+    public GameContext getContext()
+    {
+        return context;
+    }
+
     /**
      * Interface for listening for when the game has ended
      */
-    private interface GameOverListener
+    interface GameOverListener
     {
         /**
          * Called when the game has ended.

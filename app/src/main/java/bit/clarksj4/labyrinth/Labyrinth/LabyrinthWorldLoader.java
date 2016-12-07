@@ -15,13 +15,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import bit.clarksj4.labyrinth.Engine.AndroidGame;
 import bit.clarksj4.labyrinth.Engine.AnimationFrame;
 import bit.clarksj4.labyrinth.Engine.AnimationFrameSerializer;
 import bit.clarksj4.labyrinth.Engine.BitmapSerializer;
 import bit.clarksj4.labyrinth.Engine.Collider;
 import bit.clarksj4.labyrinth.Engine.Animation;
 import bit.clarksj4.labyrinth.Engine.AnimationController;
+import bit.clarksj4.labyrinth.Engine.Game;
 import bit.clarksj4.labyrinth.Engine.GameObject;
 import bit.clarksj4.labyrinth.Engine.Rigidbody;
 import bit.clarksj4.labyrinth.Engine.SpriteRenderer;
@@ -63,7 +63,7 @@ public class LabyrinthWorldLoader extends WorldLoader
 
 
 
-    public LabyrinthWorldLoader(AndroidGame game) { super(game); }
+    public LabyrinthWorldLoader(Game game) { super(game); }
 
     @Override
     public void load(World world)
