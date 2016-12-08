@@ -34,9 +34,21 @@ public class Assets
         return save(object, GameObject.class, object.getName(), true);
     }
 
+    public static boolean save(Object object, Type type, String name, boolean overwrite)
+    {
+        String json = toJson(object, type);
+        return saveJSONToFile(name, json, overwrite);
+    }
+
     public static GameObject load(String name)
     {
         return load(name, GameObject.class);
+    }
+
+    public static <T> T load(String name, Class<T> classOfT)
+    {
+        String json = getJSONFromFile(name);
+        return fromJson(json, classOfT);
     }
 
     public static String toJson(Object object, Type type)
@@ -63,18 +75,6 @@ public class Assets
         gsonBuilder.registerTypeHierarchyAdapter(AnimationFrame.class, new AnimationFrameSerializer());
         gsonBuilder.registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer());
         gson = gsonBuilder.create();
-    }
-
-    static boolean save(Object object, Type type, String name, boolean overwrite)
-    {
-        String json = toJson(object, type);
-        return saveJSONToFile(name, json, overwrite);
-    }
-
-    static <T> T load(String name, Class<T> classOfT)
-    {
-        String json = getJSONFromFile(name);
-        return fromJson(json, classOfT);
     }
 
     static void commit()

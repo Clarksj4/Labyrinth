@@ -23,8 +23,12 @@ public class Game
 
     public static Game Android(Context context, SurfaceView view)
     {
+        Game game = new Game(new AndroidGameContext(context));
+
         Graphics.getInstance().addDisplay(new Display(view, context.getResources().getDisplayMetrics()));
-        return new Game(new AndroidGameContext(context));
+        AndroidAssetInstaller.install(context);
+
+        return game;
     }
 
     /**

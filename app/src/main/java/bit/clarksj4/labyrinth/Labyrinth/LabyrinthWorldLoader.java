@@ -1,23 +1,8 @@
 package bit.clarksj4.labyrinth.Labyrinth;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import bit.clarksj4.labyrinth.Engine.AnimationFrame;
-import bit.clarksj4.labyrinth.Engine.AnimationFrameSerializer;
-import bit.clarksj4.labyrinth.Engine.BitmapSerializer;
+import bit.clarksj4.labyrinth.Engine.Assets;
 import bit.clarksj4.labyrinth.Engine.Collider;
 import bit.clarksj4.labyrinth.Engine.Animation;
 import bit.clarksj4.labyrinth.Engine.AnimationController;
@@ -32,7 +17,6 @@ import bit.clarksj4.labyrinth.Engine.Vector;
 import bit.clarksj4.labyrinth.Engine.Viewport;
 import bit.clarksj4.labyrinth.Engine.World;
 import bit.clarksj4.labyrinth.Engine.WorldLoader;
-import bit.clarksj4.labyrinth.R;
 
 /**
  * Created by Stephen on 29/05/2016.
@@ -68,121 +52,20 @@ public class LabyrinthWorldLoader extends WorldLoader
     @Override
     public void load(World world)
     {
-        int[][] tiles = MazeGenerator.generate(50, 50);
-//        int[][] tiles = TileMapLoader.load(game.getContext(), "LabyrinthTileMap.csv");
-        Resources resources = game.getContext().getResources();
-
-        // Door bitmaps
-        Bitmap closed = BitmapFactory.decodeResource(resources, R.drawable.door_0);
-        Bitmap opening1 = BitmapFactory.decodeResource(resources, R.drawable.door_1);
-        Bitmap opening2 = BitmapFactory.decodeResource(resources, R.drawable.door_2);
-        Bitmap opening3 = BitmapFactory.decodeResource(resources, R.drawable.door_3);
-        Bitmap open = BitmapFactory.decodeResource(resources, R.drawable.door_4);
-
-        // Door animations
-        Animation doorClosedAnimation = new Animation("Closed");
-        doorClosedAnimation.addKeyFrame(SpriteRenderer.class, 0, "Sprite", closed);
-
-       //String animationString = new Gson().toJson(doorClosedAnimation);
-
-        Animation doorOpeningAnimation = new Animation("Opening");
-        doorOpeningAnimation.addKeyFrame(SpriteRenderer.class, 0, "Sprite", closed);
-        doorOpeningAnimation.addKeyFrame(SpriteRenderer.class, 0.2f, "Sprite", opening1);
-        doorOpeningAnimation.addKeyFrame(SpriteRenderer.class, 0.4f, "Sprite", opening2);
-        doorOpeningAnimation.addKeyFrame(SpriteRenderer.class, 0.6f, "Sprite", opening3);
-        doorOpeningAnimation.addKeyFrame(SpriteRenderer.class, 0.8f, "Sprite", open);
-        doorOpeningAnimation.addKeyFrame(SpriteRenderer.class, 1.0f, "Sprite", open);
-
-        Animation doorClosingAnimation = new Animation("Closing");
-        doorClosingAnimation.addKeyFrame(SpriteRenderer.class, 0, "Sprite", open);
-        doorClosingAnimation.addKeyFrame(SpriteRenderer.class, 0.2f, "Sprite", opening3);
-        doorClosingAnimation.addKeyFrame(SpriteRenderer.class, 0.4f, "Sprite", opening2);
-        doorClosingAnimation.addKeyFrame(SpriteRenderer.class, 0.6f, "Sprite", opening1);
-        doorClosingAnimation.addKeyFrame(SpriteRenderer.class, 0.8f, "Sprite", closed);
-        doorClosingAnimation.addKeyFrame(SpriteRenderer.class, 1.0f, "Sprite", closed);
-
-        Animation doorOpenAnimation = new Animation("Open");
-        doorOpenAnimation.addKeyFrame(SpriteRenderer.class, 0, "Sprite", open);
-
-        // Dwarf bitmaps
-        Bitmap idle = BitmapFactory.decodeResource(resources, R.drawable.dwarf_0);
-        Bitmap running1 = BitmapFactory.decodeResource(resources, R.drawable.dwarf_1);
-        Bitmap running2 = BitmapFactory.decodeResource(resources, R.drawable.dwarf_2);
-        Bitmap hurt = BitmapFactory.decodeResource(resources, R.drawable.dwarf_3);
-
-        // Dwarf
-        Animation dwarfIdleAnimation = new Animation("Idle");
-        dwarfIdleAnimation.addKeyFrame(SpriteRenderer.class, 0, "Sprite", idle);
-
-        Animation dwarfRunningAnimation = new Animation("Running");
-        dwarfRunningAnimation.addKeyFrame(SpriteRenderer.class, 0, "Sprite", running1);
-        dwarfRunningAnimation.addKeyFrame(SpriteRenderer.class, 0.2f, "Sprite", running2);
-        dwarfRunningAnimation.addKeyFrame(SpriteRenderer.class, 0.4f, "Sprite", running2);
-        dwarfRunningAnimation.setLoop(true);
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeHierarchyAdapter(AnimationFrame.class, new AnimationFrameSerializer());
-        gsonBuilder.registerTypeHierarchyAdapter(Bitmap.class, new BitmapSerializer());
-        Gson gson = gsonBuilder.create();
-
-        String filename = "myfile";
-
-//        try
-//        {
-//            saveJSONToFile(filename, gson.toJson(dwarfRunningAnimation, Animation.class));
-//        }
-//
-//        catch (IOException e)
-//        {
-//            e.printStackTrace();
-//        }
-
-        dwarfRunningAnimation = null;
-        String json = null;
-
-
-        try
-        {
-            json = getJSONFromFile(filename);
-        }
-
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-        dwarfRunningAnimation = gson.fromJson(json, Animation.class);
-
-        Animation dwarfHurtAnimation = new Animation("Hurt");
-        dwarfHurtAnimation.addKeyFrame(SpriteRenderer.class, 0, "Sprite", hurt);
-
-        // Tile map tiles
-        TypedArray tileIds = game.getContext().getResources().obtainTypedArray(R.array.tile_set);
-        Bitmap[] tileSet = new Bitmap[tileIds.length()];
-        for (int i = 0; i < tileIds.length(); i++)
-        {
-            // Get resource Id for drawable
-            int drawableId = tileIds.getResourceId(i, -1);
-
-            // Convert to bitmap via bitmap factory
-            if (drawableId != -1)
-                tileSet[i] = BitmapFactory.decodeResource(game.getContext().getResources(), drawableId);
-        }
-        tileIds.recycle();
         //
         // Tile map
         //
         GameObject tileMapObject = new GameObject(world, "TileMap");
+        tileMapObject.addComponent(TileMap.class);
         tileMapObject.addComponent(Labyrinth.class);
-
-        // Tile map script
-        TileMap tileMap = tileMapObject.addComponent(TileMap.class);
-        tileMap.setTiles(tiles);
 
         // Tile map renderer
         TileMapRenderer tileMapRenderer = tileMapObject.addComponent(TileMapRenderer.class);
-        tileMapRenderer.setTileSet(tileSet);
         tileMapRenderer.setZIndex(-1);
+
+        // Load and assign tiles
+        Bitmap[] tileSet = Assets.load("Tiles", Bitmap[].class);
+        tileMapRenderer.setTileSet(tileSet);
 
         //
         // Door
@@ -193,10 +76,10 @@ public class LabyrinthWorldLoader extends WorldLoader
 
         // AnimationController
         AnimationController doorAnimationController = doorObject.addComponent(AnimationController.class);
-        doorAnimationController.addAnimation(doorOpenAnimation);
-        doorAnimationController.addAnimation(doorOpeningAnimation);
-        doorAnimationController.addAnimation(doorClosingAnimation);
-        doorAnimationController.addAnimation(doorClosedAnimation);
+        doorAnimationController.addAnimation(Assets.load("Door open", Animation.class));
+        doorAnimationController.addAnimation(Assets.load("Door opening", Animation.class));
+        doorAnimationController.addAnimation(Assets.load("Door closing", Animation.class));
+        doorAnimationController.addAnimation(Assets.load("Door closed", Animation.class));
 
         // Collider
         Collider doorCollider = doorObject.addComponent(Collider.class);
@@ -217,9 +100,9 @@ public class LabyrinthWorldLoader extends WorldLoader
 
         // AnimationController
         AnimationController dwarfAnimationController = dwarfObject.addComponent(AnimationController.class);
-        dwarfAnimationController.addAnimation(dwarfIdleAnimation);
-        dwarfAnimationController.addAnimation(dwarfRunningAnimation);
-        dwarfAnimationController.addAnimation(dwarfHurtAnimation);
+        dwarfAnimationController.addAnimation(Assets.load("Dwarf idle", Animation.class));
+        dwarfAnimationController.addAnimation(Assets.load("Dwarf running", Animation.class));
+        dwarfAnimationController.addAnimation(Assets.load("Dwarf hurt", Animation.class));
 
         // Collider
         Collider dwarfCollider = dwarfObject.addComponent(Collider.class);
@@ -246,7 +129,7 @@ public class LabyrinthWorldLoader extends WorldLoader
 
         // Text Renderer
         TextRenderer currentTimeRenderer = currentTimeText.addComponent(TextRenderer.class);
-        currentTimeRenderer.setTextColour(game.getContext().getResources().getColor(R.color.current_timer_text_color));
+        currentTimeRenderer.setTextColour(Assets.load("Current time colour", int.class));
         currentTimeRenderer.setTextSize(60);
         currentTimeRenderer.setTextStyle(TextRenderer.TextStyle.BOLD);
         //
@@ -258,34 +141,8 @@ public class LabyrinthWorldLoader extends WorldLoader
 
         // Text Renderer
         TextRenderer fastestTimeRenderer = fastestTimeText.addComponent(TextRenderer.class);
-        fastestTimeRenderer.setTextColour(game.getContext().getResources().getColor(R.color.fastest_timer_text_color));
+        fastestTimeRenderer.setTextColour(Assets.load("Fastest time colour", int.class));
         fastestTimeRenderer.setTextSize(35);
         fastestTimeRenderer.setTextStyle(TextRenderer.TextStyle.BOLD);
-    }
-
-    private void saveJSONToFile(String filename, String json) throws IOException
-    {
-        FileOutputStream outputStream = game.getContext().openFileOutput(filename, Context.MODE_PRIVATE);
-        outputStream.write(json.getBytes());
-        outputStream.close();
-    }
-
-    private String getJSONFromFile(String filename) throws IOException
-    {
-        // Input streams
-        FileInputStream fis = game.getContext().openFileInput(filename);    // Read file as bytes
-        InputStreamReader isr = new InputStreamReader(fis);                 // Read as chars, instead of bytes
-        BufferedReader bufferedReader = new BufferedReader(isr);            // Performance increased
-
-        // Parts to construct entire string contents of file
-        StringBuilder sb = new StringBuilder();
-        String line;
-
-        // Read each line
-        while ((line = bufferedReader.readLine()) != null)
-            sb.append(line);
-
-        // Entire string contents of file
-        return sb.toString();
     }
 }

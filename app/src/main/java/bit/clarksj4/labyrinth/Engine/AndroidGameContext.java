@@ -51,16 +51,13 @@ public class AndroidGameContext extends GameContext
     @Override
     public Map<String, Object> loadPreferences()
     {
-        Map<String, ?> loadedPreferences = context.getSharedPreferences(PREFERENCES_KEY, 0).getAll();
+        // Preferences loaded from device
+        Map<String, ?> loadedPreferences = context.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE).getAll();
+
+        // Save each item in loaded preferences to new map that uses 'Object' instead of '?'
         Map<String, Object> preferences = new HashMap<>();
-
-        for (Map.Entry<String, ?> entry : preferences.entrySet())
-        {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-
-            preferences.put(key, value);
-        }
+        for (Map.Entry<String, ?> entry : loadedPreferences.entrySet())
+            preferences.put(entry.getKey(), entry.getValue());          // Convert '?' to object so its actually useful
 
         return preferences;
     }

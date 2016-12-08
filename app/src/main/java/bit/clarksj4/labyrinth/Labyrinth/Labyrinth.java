@@ -24,9 +24,12 @@ public class Labyrinth extends Component
     public void start()
     {
         tileMap = getComponent(TileMap.class);
+
+        int[][] tiles = MazeGenerator.generate(50, 50);
+        tileMap.setTiles(tiles);
+
         placeHoles();
         placeDoor();
-        int k  = 0;
     }
 
     private void placeHoles()
