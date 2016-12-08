@@ -63,6 +63,7 @@ public class AnimationController extends Component
     {
         current = animation;
         startTime = Time.getInstance().getElapsedTime();
+        play();
     }
 
     public Animation getCurrentAnimation()

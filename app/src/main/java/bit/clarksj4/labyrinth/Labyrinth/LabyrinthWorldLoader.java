@@ -50,7 +50,7 @@ public class LabyrinthWorldLoader extends WorldLoader
     public LabyrinthWorldLoader(Game game) { super(game); }
 
     @Override
-    public void load(World world)
+    public void load()
     {
         //
         // Tile map

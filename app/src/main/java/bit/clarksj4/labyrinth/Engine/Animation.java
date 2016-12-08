@@ -85,8 +85,7 @@ public class Animation
             return new AnimationFrame(time, component, frame.property, frame.value);
         }
 
-        else
-            throw new NullPointerException("Animation contains no frames");
+        else throw new NullPointerException("Animation contains no frames");
     }
 
     public <T extends Component> AnimationFrame getNextKeyFrame(Class<T> component, float time)

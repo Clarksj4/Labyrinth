@@ -45,7 +45,7 @@ public class Game
      * Populates the world in the manner described by the given WorldLoader object
      * @param loader An object that describes what to load into the world
      */
-    public void loadWorld(WorldLoader loader) { loader.load(world); }
+    public void loadWorld(WorldLoader loader) { loader.load(); }
 
     public void accelerometerInput(float[] values) { Input.getInstance().setAccelerometerInput(values); }
 
@@ -120,12 +120,12 @@ public class Game
         @Override
         public void tick()
         {
-            world.update();
+            World.current().update();
 
             Physics.getInstance().update();
             Graphics.getInstance().draw();
 
-            world.recycle();    // Recycle all destroyed objects now that update is complete
+            World.current().recycle();    // Recycle all destroyed objects now that update is complete
         }
     }
 }

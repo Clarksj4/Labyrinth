@@ -13,9 +13,5 @@ public abstract class WorldLoader
      */
     public WorldLoader(Game game) { this.game = game; }
 
-    /**
-     * Loads objects to the given world
-     * @param world The world this laoder will load objects to
-     */
-    public abstract void load(World world);
+    public abstract void load();
 }
