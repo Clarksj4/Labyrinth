@@ -16,7 +16,6 @@ public class Game
     /** How frequently the game updates in milliseconds */
     private static final long UPDATE_FREQUENCY = 30;
 
-    private World world;
     private GameOverListener gameOverListener;
     private boolean isPaused;
     private GameContext context;
@@ -40,7 +39,6 @@ public class Game
         Assets.init(context);
 
         Time.getInstance().addTickListener(new GameCycle());
-        world = new World();
     }
 
     /**
@@ -51,13 +49,12 @@ public class Game
 
     public void accelerometerInput(float[] values) { Input.getInstance().setAccelerometerInput(values); }
 
-
     /**
      * Starts the game
      */
     public void start()
     {
-        world.start();
+        World.current().start();
         Time.getInstance().start(UPDATE_FREQUENCY);
     }
 
@@ -68,6 +65,7 @@ public class Game
     {
         Time.getInstance().stop();
 
+        // Save preferences to file
         Assets.commit();
     }
 

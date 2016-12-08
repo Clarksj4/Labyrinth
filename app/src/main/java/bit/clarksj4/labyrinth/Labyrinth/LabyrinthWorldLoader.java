@@ -55,7 +55,7 @@ public class LabyrinthWorldLoader extends WorldLoader
         //
         // Tile map
         //
-        GameObject tileMapObject = new GameObject(world, "TileMap");
+        GameObject tileMapObject = new GameObject("TileMap");
         tileMapObject.addComponent(TileMap.class);
         tileMapObject.addComponent(Labyrinth.class);
 
@@ -70,7 +70,7 @@ public class LabyrinthWorldLoader extends WorldLoader
         //
         // Door
         //
-        GameObject doorObject = new GameObject(world, "Door");
+        GameObject doorObject = new GameObject("Door");
         doorObject.getTransform().setPosition(new Vector(-592, 176));
         doorObject.addComponent(Door.class);                            // Door script
 
@@ -92,7 +92,7 @@ public class LabyrinthWorldLoader extends WorldLoader
         //
         // Dwarf
         //
-        GameObject dwarfObject = new GameObject(world, "Dwarf");
+        GameObject dwarfObject = new GameObject("Dwarf");
 //        dwarfObject.getTransform().setPosition(new Vector(-208, -356));
 //        dwarfObject.getTransform().setPosition(new Vector(-520, 180));
         dwarfObject.addComponent(Dwarf.class);                              // Dwarf script
@@ -116,14 +116,14 @@ public class LabyrinthWorldLoader extends WorldLoader
         //
         // Viewport
         //
-        GameObject viewportObject = new GameObject(world);
+        GameObject viewportObject = new GameObject();
         viewportObject.getTransform().setParent(dwarfObject.getTransform());    // Child of dwarf
         viewportObject.getTransform().setLocalPosition(Vector.zero());          // Centered on dwarf
         viewportObject.addComponent(Viewport.class);
         //
         // Current time text
         //
-        GameObject currentTimeText = new GameObject(world);
+        GameObject currentTimeText = new GameObject();
         currentTimeText.addComponent(LabyrinthUI.class);
         currentTimeText.getTransform().setParent(viewportObject.getTransform());    // Child of viewport
 
@@ -135,7 +135,7 @@ public class LabyrinthWorldLoader extends WorldLoader
         //
         // Fastest time text
         //
-        GameObject fastestTimeText = new GameObject(world);
+        GameObject fastestTimeText = new GameObject();
         fastestTimeText.getTransform().setParent(currentTimeText.getTransform());
         fastestTimeText.getTransform().setLocalPosition(new Vector(0, 50));
 

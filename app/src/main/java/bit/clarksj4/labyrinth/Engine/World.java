@@ -11,16 +11,22 @@ import java.util.Map;
  */
 public class World
 {
-    private Map<String, Object> preferences;
-    private ArrayList<GameObject> recycleBin;
+    public static World current() { return current; }
+    private static World current = new World();
 
+    public static void load(World world)
+    {
+        current.end();
+        current = world;
+    }
+
+    private ArrayList<GameObject> recycleBin;
     private LinkedList<GameObject> objects;
 
-    public World()
+    private World()
     {
         objects = new LinkedList<>();
         recycleBin = new ArrayList<>();
-        preferences = new HashMap<>();
     }
 
     public void start()
@@ -35,13 +41,13 @@ public class World
             object.update();
     }
 
-    public void next() { /* Progress to next world */ }
-    public void end() { /* End the game */ }
+    public void end() { /* World is ending, new world may be loading. */ }
 
     public void add(GameObject object) { objects.add(object); }
+
     public void destroy(GameObject toBeDestroyed) { recycleBin.add(toBeDestroyed); }
 
-    public void recycle()
+    void recycle()
     {
         objects.removeAll(recycleBin);
         recycleBin.clear();
@@ -58,10 +64,4 @@ public class World
 
         return null;
     }
-
-    public LinkedList<GameObject> getObjects() { return objects; }
-    public Object getPreference(String key) { return preferences.get(key); }
-    public Map<String, Object> getPreferences() { return preferences; }
-
-    public void setPreference(String key, Object value) { preferences.put(key, value); }
 }

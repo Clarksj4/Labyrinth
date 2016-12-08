@@ -2,12 +2,14 @@ package bit.clarksj4.labyrinth.Labyrinth;
 
 import java.text.DecimalFormat;
 
+import bit.clarksj4.labyrinth.Engine.Assets;
 import bit.clarksj4.labyrinth.Engine.Component;
 import bit.clarksj4.labyrinth.Engine.GameObject;
 import bit.clarksj4.labyrinth.Engine.Time;
 import bit.clarksj4.labyrinth.Engine.TextRenderer;
 import bit.clarksj4.labyrinth.Engine.Vector;
 import bit.clarksj4.labyrinth.Engine.Viewport;
+import bit.clarksj4.labyrinth.Engine.World;
 
 /**
  * Created by Stephen on 29/05/2016.
@@ -40,7 +42,7 @@ public class LabyrinthUI extends Component implements Dwarf.DwarfExitListener, D
         getTransform().setLocalPosition(new Vector(0, -viewportYExtents + textYExtents + topPadding));
 
         // Get high score from save file
-        Object fastestTimeObject = gameObject.getWorld().getPreference("FastestTime");
+        Object fastestTimeObject = Assets.getPreference("FastestTime");
         if (fastestTimeObject != null && fastestTimeObject instanceof Float)
             fastestTime = (float)fastestTimeObject;
 
@@ -48,7 +50,7 @@ public class LabyrinthUI extends Component implements Dwarf.DwarfExitListener, D
         fastestTimeRenderer.setText(formatTime(fastestTime));
 
         // Get dwarf and listen
-        Dwarf dwarf = gameObject.getWorld().findGameObjectByName("Dwarf").getComponent(Dwarf.class);
+        Dwarf dwarf = World.current().findGameObjectByName("Dwarf").getComponent(Dwarf.class);
         dwarf.addExitListener(this);
         dwarf.addResetListener(this);
 
@@ -82,7 +84,7 @@ public class LabyrinthUI extends Component implements Dwarf.DwarfExitListener, D
         {
             fastestTime = timeRunning;                                          // Set high score
             fastestTimeRenderer.setText(formatTime(timeRunning));               // Update display
-            gameObject.getWorld().setPreference("FastestTime", timeRunning);    // Save score to file
+            Assets.setPreference("FastestTime", timeRunning);    // Save score to file
         }
 
         // Dwarf is resetting, pause the timer

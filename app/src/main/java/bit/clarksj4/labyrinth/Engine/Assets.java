@@ -24,7 +24,7 @@ public class Assets
         return preferences.get(name);
     }
 
-    public static void setPrefernce(String name, Object value)
+    public static void setPreference(String name, Object value)
     {
         preferences.put(name, value);
     }

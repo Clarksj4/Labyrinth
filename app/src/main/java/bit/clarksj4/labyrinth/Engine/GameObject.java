@@ -11,23 +11,20 @@ public class GameObject
     /** The default name of a game object */
     private static final String DEFAULT_NAME = "Game Object";
 
-    private World world;
     private String name;
     private ArrayList<Component> components;
     private Transform transform;
 
     /**
      * A new game object with the default name
-     * @param world The world this game object exists in
      */
-    public GameObject(World world) { this(world, DEFAULT_NAME); }
+    public GameObject() { this(DEFAULT_NAME); }
 
     /**
      * A new game object with the given name
-     * @param world The world this game object exists in
      * @param name The name of this game object
      */
-    public GameObject(World world, String name)
+    public GameObject(String name)
     {
         this.name = name;
 
@@ -36,8 +33,7 @@ public class GameObject
         transform = addComponent(Transform.class);      // EVERY game object gets a transform
 
         // Add this game object to world
-        this.world = world;
-        world.add(this);
+        World.current().add(this);
     }
 
     /**
@@ -69,7 +65,7 @@ public class GameObject
             component.destroy();
 
         // Remove this object from world
-        world.destroy(this);
+        World.current().destroy(this);
     }
 
     /**
@@ -173,12 +169,6 @@ public class GameObject
      * @return The name of this game object
      */
     public String getName() { return name; }
-
-    /**
-     * Gets the world that this game object exists in
-     * @return The world that this game object exists in
-     */
-    public World getWorld() { return world; }
 
     /**
      * Gets this game objects transform component

@@ -12,7 +12,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 
-import bit.clarksj4.labyrinth.Engine.AndroidGame;
 import bit.clarksj4.labyrinth.Engine.Game;
 import bit.clarksj4.labyrinth.Labyrinth.LabyrinthWorldLoader;
 
