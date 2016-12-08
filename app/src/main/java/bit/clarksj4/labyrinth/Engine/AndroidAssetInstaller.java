@@ -6,8 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import java.lang.reflect.Type;
-
 import bit.clarksj4.labyrinth.R;
 
 /**

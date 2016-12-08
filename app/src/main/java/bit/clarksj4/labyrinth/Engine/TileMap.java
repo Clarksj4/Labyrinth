@@ -173,4 +173,9 @@ public class TileMap extends Component
         int clamped = MathExtension.clamp(rounded, 0, getRows() - 1);
         return clamped;
     }
+
+    private float columnToWorldX(int column)
+    {
+
+    }
 }

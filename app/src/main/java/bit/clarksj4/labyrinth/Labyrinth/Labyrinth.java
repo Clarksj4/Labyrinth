@@ -1,11 +1,13 @@
 package bit.clarksj4.labyrinth.Labyrinth;
 
+import bit.clarksj4.labyrinth.Engine.Assets;
 import bit.clarksj4.labyrinth.Engine.Component;
 import bit.clarksj4.labyrinth.Engine.Coordinate;
 import bit.clarksj4.labyrinth.Engine.GameObject;
 import bit.clarksj4.labyrinth.Engine.MathExtension;
 import bit.clarksj4.labyrinth.Engine.Tile;
 import bit.clarksj4.labyrinth.Engine.TileMap;
+import bit.clarksj4.labyrinth.Engine.Vector;
 
 /**
  * Created by Stephen on 2/12/2016.
@@ -13,6 +15,7 @@ import bit.clarksj4.labyrinth.Engine.TileMap;
 
 public class Labyrinth extends Component
 {
+    private String doorPrefab = "Door";
     private TileMap tileMap;
 
     public Labyrinth(GameObject gameObject)
@@ -55,6 +58,15 @@ public class Labyrinth extends Component
     {
         Coordinate outerWall = randomAccessibleOuterWall();
 
+        // TODO: convert coordinate to world position: TileMap.coordinateToWorldPosition()
+
+        Vector worldPosition = tileMap.getComponent(TileMap.class);
+
+        GameObject door = Assets.load(doorPrefab);
+
+
+        door.getTransform().setPosition();
+
         // TODO: remove wall
         // TODO: Create door object here!
         // TODO: prefabs! need door animations and images etc
@@ -67,10 +79,11 @@ public class Labyrinth extends Component
         // if it is, replace wall with empty, place door
 
         boolean adjacentToOpen;
-        Coordinate outerWall = randomOuterWall();
+        Coordinate outerWall;
 
         do
         {
+            outerWall = randomOuterWall();
             adjacentToOpen = false;
 
             // Check each adjacent tile
@@ -89,8 +102,7 @@ public class Labyrinth extends Component
                 }
             }
 
-            if (!adjacentToOpen) outerWall = randomOuterWall();
-        } while(adjacentToOpen == false);
+        } while(!adjacentToOpen);
 
         return outerWall;
     }
