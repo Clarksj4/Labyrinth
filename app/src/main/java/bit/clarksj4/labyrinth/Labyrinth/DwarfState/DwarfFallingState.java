@@ -1,4 +1,4 @@
-package bit.clarksj4.labyrinth.DwarfState;
+package bit.clarksj4.labyrinth.Labyrinth.DwarfState;
 
 import bit.clarksj4.labyrinth.Engine.AnimationController;
 import bit.clarksj4.labyrinth.Engine.Rigidbody;

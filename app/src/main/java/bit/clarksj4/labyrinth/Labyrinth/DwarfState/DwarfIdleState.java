@@ -1,9 +1,8 @@
-package bit.clarksj4.labyrinth.DwarfState;
+package bit.clarksj4.labyrinth.Labyrinth.DwarfState;
 
 import bit.clarksj4.labyrinth.Engine.AnimationController;
 import bit.clarksj4.labyrinth.Labyrinth.Dwarf;
 import bit.clarksj4.labyrinth.Engine.Physics;
-import bit.clarksj4.labyrinth.Engine.Vector;
 
 /**
  * Created by Stephen on 19/05/2016.

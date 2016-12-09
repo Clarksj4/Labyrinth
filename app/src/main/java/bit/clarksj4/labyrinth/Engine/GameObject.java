@@ -105,7 +105,7 @@ public class GameObject extends UIDObject
     {
         // Walk up the hierarchy checking for the given component type
         T dst = null;
-        Transform walker = getComponent(Transform.class);
+        Transform walker = transform;
         while(walker != null && dst == null)
         {
             dst = walker.getGameObject().getComponent(cls);
@@ -146,7 +146,7 @@ public class GameObject extends UIDObject
     {
         // Check each child for a component of the given type
         T component = null;
-        ArrayList<Transform> children = getComponent(Transform.class).getChildren();
+        ArrayList<Transform> children = transform.getChildren();
         for (Transform child : children)
         {
             // Check child for component of given type

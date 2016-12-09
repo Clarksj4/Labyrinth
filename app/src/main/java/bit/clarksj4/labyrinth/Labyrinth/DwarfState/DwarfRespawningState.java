@@ -1,4 +1,4 @@
-package bit.clarksj4.labyrinth.DwarfState;
+package bit.clarksj4.labyrinth.Labyrinth.DwarfState;
 
 import bit.clarksj4.labyrinth.Engine.Rigidbody;
 import bit.clarksj4.labyrinth.Labyrinth.Dwarf;
@@ -8,7 +8,7 @@ import bit.clarksj4.labyrinth.Engine.Vector;
 /**
  * Created by Stephen on 1/06/2016.
  */
-public class DwarfResettingState extends DwarfState
+public class DwarfRespawningState extends DwarfState
 {
     private static final float DURATION = 0.5f;
 
@@ -17,7 +17,7 @@ public class DwarfResettingState extends DwarfState
     private Vector positionResettingFrom;
     private float time;
 
-    public DwarfResettingState(Dwarf dwarf, Vector positionToResetTo, Vector scaleToResetTo)
+    public DwarfRespawningState(Dwarf dwarf, Vector positionToResetTo, Vector scaleToResetTo)
     {
         super(dwarf);
 
@@ -48,7 +48,6 @@ public class DwarfResettingState extends DwarfState
             dwarf.notifyReset();                                // Notify listeners that the reset has occurred
             setState(new DwarfIdleState(dwarf));                // Return to idle state
         }
-
     }
 
     @Override

@@ -20,12 +20,12 @@ import bit.clarksj4.labyrinth.Engine.UniformArrays;
  * are carved such that exactly one end touches an existing passage.
  */
 
-public class MazeGenerator
+class MazeGenerator
 {
-    public static final int OPEN = 1;
-    public static final int WALL = 3;
+    static final int OPEN = 1;
+    static final int WALL = 3;
 
-    public static int[][] generate(int width, int height)
+    static int[][] generate(int width, int height)
     {
         int[][] tiles = new int[height][width];
 
@@ -42,7 +42,7 @@ public class MazeGenerator
         return tiles;
     }
 
-    static void createOutsideWalls(int[][] tiles)
+    private static void createOutsideWalls(int[][] tiles)
     {
         int width = UniformArrays.getColumns(tiles);
         int height = UniformArrays.getRows(tiles);
@@ -65,7 +65,7 @@ public class MazeGenerator
         }
     }
 
-    static void updateSurroundingValidTiles(int[][] tiles, Coordinate position, ArrayList<Coordinate> validTiles)
+    private static void updateSurroundingValidTiles(int[][] tiles, Coordinate position, ArrayList<Coordinate> validTiles)
     {
         for (Coordinate surrounding : position.surrounding())
         {
@@ -79,7 +79,7 @@ public class MazeGenerator
         }
     }
 
-    static ArrayList<Coordinate> getValidTiles(int[][] tiles)
+    private static ArrayList<Coordinate> getValidTiles(int[][] tiles)
     {
         int width = UniformArrays.getColumns(tiles);
         int height = UniformArrays.getRows(tiles);
@@ -98,7 +98,7 @@ public class MazeGenerator
         return validTiles;
     }
 
-    static boolean isValid(int[][] tiles, Coordinate position)
+    private static boolean isValid(int[][] tiles, Coordinate position)
     {
         // If tile is a passageway
         if (UniformArrays.get(tiles, position.x, position.y) == OPEN &&
@@ -110,7 +110,7 @@ public class MazeGenerator
         else return false;
     }
 
-    static boolean touchingMultipleAdjacentWalls(int[][] tiles, Coordinate position)
+    private static boolean touchingMultipleAdjacentWalls(int[][] tiles, Coordinate position)
     {
         int adjacentWalls = 0;
         for (Coordinate adjacent : position.adjacent())
@@ -122,7 +122,7 @@ public class MazeGenerator
         return adjacentWalls > 1;
     }
 
-    static boolean isolated(int[][] tiles, Coordinate position)
+    private static boolean isolated(int[][] tiles, Coordinate position)
     {
         int adjacentWalls = 0;
         for (Coordinate adjacent : position.adjacent())
@@ -134,7 +134,7 @@ public class MazeGenerator
         return adjacentWalls == 0;
     }
 
-    static boolean checkDiagonals(int[][] tiles, Coordinate position)
+    private static boolean checkDiagonals(int[][] tiles, Coordinate position)
     {
         // Walls adjacent to 'position'
         ArrayList<Coordinate> adjacentWalls = adjacentWalls(tiles, position);
@@ -157,7 +157,7 @@ public class MazeGenerator
         return true;
     }
 
-    static ArrayList<Coordinate> adjacentWalls(int[][] tiles, Coordinate position)
+    private static ArrayList<Coordinate> adjacentWalls(int[][] tiles, Coordinate position)
     {
         ArrayList<Coordinate> adjacentWalls = new ArrayList<>();
 
@@ -172,7 +172,7 @@ public class MazeGenerator
         return adjacentWalls;
     }
 
-    static ArrayList<Coordinate> diagonalWalls(int[][] tiles, Coordinate position)
+    private static ArrayList<Coordinate> diagonalWalls(int[][] tiles, Coordinate position)
     {
         ArrayList<Coordinate> diagonalWalls = new ArrayList<>();
 
@@ -187,7 +187,7 @@ public class MazeGenerator
         return diagonalWalls;
     }
 
-    static boolean contains(int[][] tiles, Coordinate position)
+    private static boolean contains(int[][] tiles, Coordinate position)
     {
         int width = UniformArrays.getColumns(tiles);
         int height = UniformArrays.getRows(tiles);

@@ -2,9 +2,9 @@ package bit.clarksj4.labyrinth.Labyrinth;
 
 import java.util.ArrayList;
 
-import bit.clarksj4.labyrinth.DwarfState.DwarfIdleState;
-import bit.clarksj4.labyrinth.DwarfState.DwarfResettingState;
-import bit.clarksj4.labyrinth.DwarfState.DwarfState;
+import bit.clarksj4.labyrinth.Labyrinth.DwarfState.DwarfIdleState;
+import bit.clarksj4.labyrinth.Labyrinth.DwarfState.DwarfRespawningState;
+import bit.clarksj4.labyrinth.Labyrinth.DwarfState.DwarfState;
 import bit.clarksj4.labyrinth.Engine.Collider;
 import bit.clarksj4.labyrinth.Engine.Component;
 import bit.clarksj4.labyrinth.Engine.GameObject;
@@ -89,7 +89,7 @@ public class Dwarf extends Component implements Collider.TileContactListener, Co
 
     public void reset()
     {
-        setState(new DwarfResettingState(this, startingPosition, startingLocalScale));
+        setState(new DwarfRespawningState(this, startingPosition, startingLocalScale));
     }
 
     public void setState(DwarfState state)
