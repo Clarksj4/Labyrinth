@@ -1,5 +1,6 @@
 package bit.clarksj4.labyrinth.DwarfState;
 
+import bit.clarksj4.labyrinth.Engine.Rigidbody;
 import bit.clarksj4.labyrinth.Labyrinth.Dwarf;
 import bit.clarksj4.labyrinth.Engine.Time;
 import bit.clarksj4.labyrinth.Engine.Vector;
@@ -22,14 +23,16 @@ public class DwarfResettingState extends DwarfState
 
         this.scaleToResetTo = scaleToResetTo;
         this.positionToResetTo = positionToResetTo;
-
         positionResettingFrom = dwarf.getTransform().getPosition();
+
+        // Turn off collisions
+        dwarf.getComponent(Rigidbody.class).setEnabled(false);
     }
 
     @Override
     public void update()
     {
-        time += Time.getInstance().getDeltaTime();
+        time += Time.getDeltaTime();
 
         // Percentage of time that has passed
         float t = time / DURATION;
@@ -49,5 +52,8 @@ public class DwarfResettingState extends DwarfState
     }
 
     @Override
-    public void stateClosing() { /* Nothing */ }
+    public void stateClosing()
+    {
+        dwarf.getComponent(Rigidbody.class).setEnabled(true);
+    }
 }

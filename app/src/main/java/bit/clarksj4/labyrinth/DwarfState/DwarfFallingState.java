@@ -1,6 +1,7 @@
 package bit.clarksj4.labyrinth.DwarfState;
 
 import bit.clarksj4.labyrinth.Engine.AnimationController;
+import bit.clarksj4.labyrinth.Engine.Rigidbody;
 import bit.clarksj4.labyrinth.Labyrinth.Dwarf;
 import bit.clarksj4.labyrinth.Engine.Time;
 import bit.clarksj4.labyrinth.Engine.Vector;
@@ -21,11 +22,14 @@ public class DwarfFallingState extends DwarfState
     {
         super(dwarf);
 
+        this.destination = destination;
         startingScale = dwarf.getTransform().getScale();
         startingPosition = dwarf.getTransform().getPosition();
-        this.destination = destination;
 
-        AnimationController animController = dwarf.getGameObject().getComponent(AnimationController.class);
+        // Turn off collisions
+        dwarf.getComponent(Rigidbody.class).setEnabled(false);
+
+        AnimationController animController = dwarf.getComponent(AnimationController.class);
         animController.playAnimation("Hurt");
     }
 
@@ -34,7 +38,7 @@ public class DwarfFallingState extends DwarfState
     {
         super.update();
 
-        time += Time.getInstance().getDeltaTime();
+        time += Time.getDeltaTime();
         float t = time / DURATION;
 
         Vector scale = Vector.lerp(startingScale, Vector.zero(), t);
@@ -48,5 +52,8 @@ public class DwarfFallingState extends DwarfState
     }
 
     @Override
-    public void stateClosing() { /* Nothing - falling state does not listen to anything */ }
+    public void stateClosing()
+    {
+        dwarf.getComponent(Rigidbody.class).setEnabled(true);
+    }
 }

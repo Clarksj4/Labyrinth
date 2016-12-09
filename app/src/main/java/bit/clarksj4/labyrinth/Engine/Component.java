@@ -11,12 +11,8 @@ public abstract class Component extends UIDObject
 
     /** The game object this component is attached to. Every component must be attached to a game object */
     protected GameObject gameObject;
-    protected boolean enabled;
+    private boolean enabled;
 
-    /**
-     * A component attached to the given game object.
-     * @param gameObject
-     */
     public Component(GameObject gameObject)
     {
         this.gameObject = gameObject;
@@ -52,7 +48,7 @@ public abstract class Component extends UIDObject
      * temporarily switched off.
      * @return Whether this component is currently enabled
      */
-    public boolean getEnabled() { return enabled; }
+    public boolean isEnabled() { return enabled; }
 
     /**
      * Gets the game object that this component is attached to.

@@ -63,7 +63,7 @@ public class LabyrinthUI extends Component implements Dwarf.DwarfExitListener, D
         if (!dwarfResetting)
         {
             // Keep track of time and draw to screen
-            timeRunning += Time.getInstance().getDeltaTime();
+            timeRunning += Time.getDeltaTime();
             currentTimeRenderer.setText(formatTime(timeRunning));
         }
     }

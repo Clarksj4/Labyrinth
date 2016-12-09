@@ -21,7 +21,7 @@ public abstract class Renderer extends Component implements Comparable<Renderer>
 
         zIndex = DEFAULT_Z_INDEX;
 
-        Graphics.getInstance().registerRenderer(this);
+        Graphics.addRenderer(this);
     }
 
     /**
@@ -49,8 +49,8 @@ public abstract class Renderer extends Component implements Comparable<Renderer>
         this.zIndex = zIndex;
 
         // Re-add this renderer to the graphics object so that its list of renderers is sorted correctly
-        Graphics.getInstance().removeRenderer(this);
-        Graphics.getInstance().registerRenderer(this);
+        Graphics.removeRenderer(this);
+        Graphics.addRenderer(this);
     }
 
     /**
@@ -59,14 +59,12 @@ public abstract class Renderer extends Component implements Comparable<Renderer>
      */
     public float getZIndex() { return zIndex; }
 
+    @Override
     public int compareTo(Renderer other)
     {
         // Sorted by zIndex
-        if (zIndex < other.getZIndex())
-            return -1;
-        else if (zIndex > other.getZIndex())
-            return 1;
-        else
-            return 0;
+        if (zIndex < other.getZIndex()) return -1;
+        else if (zIndex > other.getZIndex()) return 1;
+        else return 0;
     }
 }

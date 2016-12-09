@@ -29,14 +29,14 @@ public class Rigidbody extends Component implements Collider.TileContactListener
         collider.addTileContactListener(this);
 
         // Register this rigidbody with the physics object
-        Physics.getInstance().registerRigidbody(this);
+        Physics.addRigidbody(this);
     }
 
     @Override
     public void destroy()
     {
         // Remove reference from physics object
-        Physics.getInstance().unregisterRigidbody(this);
+        Physics.removeRigidbody(this);
     }
 
     /**
@@ -54,10 +54,9 @@ public class Rigidbody extends Component implements Collider.TileContactListener
     public void resolveForces()
     {
         // TODO: Placeholder logic. This is not how gravity works.
-        float deltaTime = Time.getInstance().getDeltaTime();
-        Vector gravity = Physics.getInstance().getGravity();
+        float deltaTime = Time.getDeltaTime();
 
-        velocity = gravity.scale(deltaTime);
+        velocity = Physics.gravity.scale(deltaTime);
         getTransform().translate(velocity);
     }
 

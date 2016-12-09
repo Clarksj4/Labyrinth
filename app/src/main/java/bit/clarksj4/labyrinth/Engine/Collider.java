@@ -45,14 +45,14 @@ public class Collider extends Component
         tileContactListeners = new ArrayList<>();
 
         // Collider gets registered with Physics object
-        Physics.getInstance().registerCollider(this);
+        Physics.addCollider(this);
     }
 
     @Override
     public void destroy()
     {
         // When destroyed, remove reference to this collider from physics object
-        Physics.getInstance().unregisterCollider(this);
+        Physics.removeCollider(this);
     }
 
     /**

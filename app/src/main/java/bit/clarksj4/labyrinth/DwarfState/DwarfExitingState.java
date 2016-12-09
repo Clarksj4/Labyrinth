@@ -1,5 +1,6 @@
 package bit.clarksj4.labyrinth.DwarfState;
 
+import bit.clarksj4.labyrinth.Engine.Rigidbody;
 import bit.clarksj4.labyrinth.Labyrinth.Door;
 import bit.clarksj4.labyrinth.Labyrinth.Dwarf;
 import bit.clarksj4.labyrinth.Engine.Time;
@@ -26,6 +27,8 @@ public class DwarfExitingState extends DwarfState implements Door.DoorListener {
         startingScale = dwarf.getTransform().getScale();
         startingPosition = dwarf.getTransform().getPosition();
         exited = false;
+
+        dwarf.getComponent(Rigidbody.class).setEnabled(false);
     }
 
     @Override
@@ -41,7 +44,7 @@ public class DwarfExitingState extends DwarfState implements Door.DoorListener {
         // Get smaller and move towards door centre to give appearance of moving through door
         if (!exited)
         {
-            time += Time.getInstance().getDeltaTime();
+            time += Time.getDeltaTime();
 
             // Percentage of duration that has expired
             float t = time / DURATION;
@@ -68,6 +71,7 @@ public class DwarfExitingState extends DwarfState implements Door.DoorListener {
     public void stateClosing()
     {
         door.removeListener(this);
+        dwarf.getComponent(Rigidbody.class).setEnabled(true);
     }
 
     @Override

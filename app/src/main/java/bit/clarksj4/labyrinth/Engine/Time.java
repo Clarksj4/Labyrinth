@@ -14,32 +14,28 @@ import java.util.concurrent.TimeUnit;
  */
 public class Time
 {
-    private static Time instance = new Time();
-    private ScheduledExecutorService executorService;
-    private ScheduledFuture loop;
-    private long updateFrequency;
-    private ArrayList<OnTickListener> tickListeners;
-    private long startTime;
-    private long timeAtLastFrame;
-    private float elapsedTime;
-    private float deltaTime;
-    private int iterations;
+    private static ScheduledExecutorService executorService;
+    private static ScheduledFuture loop;
 
-    /**
-     * Private singleton constructor
-     */
-    private Time() { tickListeners = new ArrayList<>(); }
+    private static ArrayList<OnTickListener> tickListeners = new ArrayList<>();
+    private static long _updateFrequency;
+    private static long startTime;
+    private static long timeAtLastFrame;
+    private static float elapsedTime;
+    private static float deltaTime;
+    private static int iterations;
+
 
     /**
      * Starts this timer with the given delay between updates
      * @param updateFrequency The delay between updates in milliseconds
      */
-    void start(long updateFrequency)
+    static void start(long updateFrequency)
     {
         if (executorService == null &&
                 loop == null)
         {
-            this.updateFrequency = updateFrequency;
+            _updateFrequency = updateFrequency;
 
             // Create new scheduling service
             executorService = Executors.newSingleThreadScheduledExecutor();
@@ -56,7 +52,7 @@ public class Time
     /**
      * Resumes this timer after a pause
      */
-    void resume()
+    static void resume()
     {
         if (executorService != null)
         {
@@ -68,7 +64,7 @@ public class Time
                 // Begin the update cycle immediately ( 0 = no initial delay)
                 loop = executorService.scheduleAtFixedRate(new Tick(),
                         0,
-                        updateFrequency,
+                        _updateFrequency,
                         TimeUnit.MILLISECONDS);
             }
         }
@@ -77,7 +73,7 @@ public class Time
     /**
      * Pauses the game timer
      */
-    void pause()
+    static void pause()
     {
         if (executorService != null)
         {
@@ -94,7 +90,7 @@ public class Time
     /**
      * Stops the game timer
      */
-    void stop()
+    static void stop()
     {
         if (loop != null)
         {
@@ -113,47 +109,41 @@ public class Time
      * Registers a listener to be notified each time the timer ticks over
      * @param listener The listener to be notified each time the timer ticks
      */
-    void addTickListener(OnTickListener listener) { tickListeners.add(listener); }
+    static void addTickListener(OnTickListener listener) { tickListeners.add(listener); }
 
     /**
      * Removes the given listener from the collection of listeners
      * @param listener The listener to remove from the collection of listeners
      */
-    void removeTickListener(OnTickListener listener) { tickListeners.remove(listener); }
+    static void removeTickListener(OnTickListener listener) { tickListeners.remove(listener); }
 
     /**
      * The time it took in seconds for the last game frame.
      */
-    public float getDeltaTime() { return deltaTime; }
+    public static float getDeltaTime() { return deltaTime; }
 
     /**
      * The time in seconds the game has been running, as at the beginning of the current tick event
      */
-    public float getElapsedTime() { return elapsedTime; }
+    public static float getElapsedTime() { return elapsedTime; }
 
     /**
      * The number of times this timer has ticked
      */
-    public int getIterations() { return iterations; }
+    public static int getIterations() { return iterations; }
 
     /**
      * Sets the delay that occurs between each update in the game cycle. Setting the delay after
      * the game has begun will only take effect once the game loop is resumed or restarted
      * @param updateFrequency The delay between each update in the game cycle in milliseconds
      */
-    public void setUpdateFrequency(long updateFrequency) { this.updateFrequency = updateFrequency; }
+    public static void setUpdateFrequency(long updateFrequency) { _updateFrequency = updateFrequency; }
 
     /**
      * Checks if the timer is currently running
      * @return True if the timer is currently running
      */
-    public boolean isRunning() { return executorService != null; }
-
-    /**
-     * Gets the singleton instance
-     * @return The singleton instance
-     */
-    public static Time getInstance() { return instance; }
+    public static boolean isRunning() { return executorService != null; }
 
     /**
      * Tick listener interface
@@ -166,7 +156,7 @@ public class Time
         void tick();
     }
 
-    private class Tick implements Runnable
+    private static class Tick implements Runnable
     {
         @Override
         public void run()

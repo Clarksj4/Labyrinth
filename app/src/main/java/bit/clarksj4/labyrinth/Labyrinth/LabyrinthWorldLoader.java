@@ -68,34 +68,9 @@ public class LabyrinthWorldLoader extends WorldLoader
         tileMapRenderer.setTileSet(tileSet);
 
         //
-        // Door
-        //
-//        GameObject doorObject = new GameObject("Door");
-//        doorObject.getTransform().setPosition(new Vector(-592, 176));
-//        doorObject.addComponent(Door.class);                            // Door script
-//
-//        // AnimationController
-//        AnimationController doorAnimationController = doorObject.addComponent(AnimationController.class);
-//        doorAnimationController.addAnimation(Assets.load("Door open", Animation.class));
-//        doorAnimationController.addAnimation(Assets.load("Door opening", Animation.class));
-//        doorAnimationController.addAnimation(Assets.load("Door closing", Animation.class));
-//        doorAnimationController.addAnimation(Assets.load("Door closed", Animation.class));
-//
-//        // Collider
-//        Collider doorCollider = doorObject.addComponent(Collider.class);
-//        doorCollider.setSize(new Vector(32, 32));
-//        doorCollider.setIsTrigger(true);
-//
-//        // Renderer
-//        SpriteRenderer doorRenderer = doorObject.addComponent(SpriteRenderer.class);
-//        doorRenderer.setZIndex(0);
-//        Assets.save(doorObject);
-        //
         // Dwarf
         //
         GameObject dwarfObject = new GameObject("Dwarf");
-//        dwarfObject.getTransform().setPosition(new Vector(-208, -356));
-//        dwarfObject.getTransform().setPosition(new Vector(-520, 180));
         dwarfObject.addComponent(Dwarf.class);                              // Dwarf script
         dwarfObject.addComponent(AccelerometerGravity.class);               // Gravity script
 
@@ -117,14 +92,14 @@ public class LabyrinthWorldLoader extends WorldLoader
         //
         // Viewport
         //
-        GameObject viewportObject = new GameObject();
+        GameObject viewportObject = new GameObject("Viewport");
         viewportObject.getTransform().setParent(dwarfObject.getTransform());    // Child of dwarf
         viewportObject.getTransform().setLocalPosition(Vector.zero());          // Centered on dwarf
         viewportObject.addComponent(Viewport.class);
         //
         // Current time text
         //
-        GameObject currentTimeText = new GameObject();
+        GameObject currentTimeText = new GameObject("Current time");
         currentTimeText.addComponent(LabyrinthUI.class);
         currentTimeText.getTransform().setParent(viewportObject.getTransform());    // Child of viewport
 
@@ -133,10 +108,11 @@ public class LabyrinthWorldLoader extends WorldLoader
         currentTimeRenderer.setTextColour(Assets.load("Current time colour", int.class));
         currentTimeRenderer.setTextSize(60);
         currentTimeRenderer.setTextStyle(TextRenderer.TextStyle.BOLD);
+        currentTimeRenderer.setZIndex(2);
         //
         // Fastest time text
         //
-        GameObject fastestTimeText = new GameObject();
+        GameObject fastestTimeText = new GameObject("Fastest Time");
         fastestTimeText.getTransform().setParent(currentTimeText.getTransform());
         fastestTimeText.getTransform().setLocalPosition(new Vector(0, 50));
 
@@ -145,5 +121,6 @@ public class LabyrinthWorldLoader extends WorldLoader
         fastestTimeRenderer.setTextColour(Assets.load("Fastest time colour", int.class));
         fastestTimeRenderer.setTextSize(35);
         fastestTimeRenderer.setTextStyle(TextRenderer.TextStyle.BOLD);
+        fastestTimeRenderer.setZIndex(2);
     }
 }

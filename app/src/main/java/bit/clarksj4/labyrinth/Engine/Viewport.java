@@ -3,7 +3,6 @@ package bit.clarksj4.labyrinth.Engine;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.view.SurfaceView;
 
 import java.util.Collection;
 
@@ -27,10 +26,10 @@ public class Viewport extends Component
         super(parent);
 
         // Register self with graphics object
-        Graphics.getInstance().registerViewport(this);
+        Graphics.addViewport(this);
 
         // Display to draw to defaults to the first display registered in the graphics object
-        display = Graphics.getInstance().getDisplays().get(0);
+        display = Graphics.getDisplays().get(0);
     }
 
     @Override
@@ -45,7 +44,7 @@ public class Viewport extends Component
     public void destroy()
     {
         // Remove reference from Graphics object
-        Graphics.getInstance().removeViewport(this);
+        Graphics.removeViewport(this);
     }
 
     /**

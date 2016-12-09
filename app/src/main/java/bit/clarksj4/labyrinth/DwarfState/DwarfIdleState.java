@@ -25,10 +25,8 @@ public class DwarfIdleState extends DwarfState
     {
         super.update();
 
-        Vector gravity = Physics.getInstance().getGravity();
-
         // If either x or y velocity exceed the threshold, then switch to running state
-        if (gravity.getMagnitude() > GRAVITY_THRESHOLD)
+        if (Physics.gravity.getMagnitude() > GRAVITY_THRESHOLD)
             dwarf.setState(new DwarfRunningState(dwarf));
     }
 

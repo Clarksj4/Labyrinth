@@ -45,7 +45,7 @@ public class AnimationController extends Component
             // If animation loops...
             if (getCurrentAnimation().getLoop())
             {
-                startTime = Time.getInstance().getElapsedTime();  // reset the start time
+                startTime = Time.getElapsedTime();  // reset the start time
                 play();                                           // Play the animation from the beginning
             }
         }
@@ -62,7 +62,7 @@ public class AnimationController extends Component
     public void playAnimation(String animation)
     {
         current = animation;
-        startTime = Time.getInstance().getElapsedTime();
+        startTime = Time.getElapsedTime();
         play();
     }
 
@@ -112,7 +112,7 @@ public class AnimationController extends Component
         }
     }
 
-    private float getElapsedTime() { return Time.getInstance().getElapsedTime() - startTime; }
+    private float getElapsedTime() { return Time.getElapsedTime() - startTime; }
 
     /**
      * Listener interface for when this animation controller's current animation has complete an

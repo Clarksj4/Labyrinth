@@ -23,13 +23,13 @@ public class AccelerometerGravity extends Component
     public void update()
     {
         // Calculate gravity (from android developer docs)
-        float[] accelerometer = Input.getInstance().getAccelerometerInput();
-        Vector gravity = Physics.getInstance().getGravity().divide(Game.UNIT / 2);
+        float[] accelerometer = Input.getAccelerometerInput();
+        Vector gravity = Physics.gravity.divide(Game.UNIT / 2);
 
         gravity.x = -(GRAVITY_ALPHA * -gravity.x + (1 - GRAVITY_ALPHA) * accelerometer[0]);
         gravity.y = GRAVITY_ALPHA * gravity.y + (1 - GRAVITY_ALPHA) * accelerometer[1];
 
         // Set gravity based on accelerometer input
-        Physics.getInstance().setGravity(gravity.scale(Game.UNIT / 2));
+        Physics.gravity = (gravity.scale(Game.UNIT / 2));
     }
 }

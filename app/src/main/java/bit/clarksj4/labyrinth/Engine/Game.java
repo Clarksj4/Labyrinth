@@ -24,7 +24,7 @@ public class Game
     {
         Game game = new Game(new AndroidGameContext(context));
 
-        Graphics.getInstance().addDisplay(new Display(view, context.getResources().getDisplayMetrics()));
+        Graphics.addDisplay(new Display(view, context.getResources().getDisplayMetrics()));
         AndroidAssetInstaller.install(context);
 
         return game;
@@ -38,7 +38,7 @@ public class Game
         this.context = context;
         Assets.init(context);
 
-        Time.getInstance().addTickListener(new GameCycle());
+        Time.addTickListener(new GameCycle());
     }
 
     /**
@@ -47,7 +47,7 @@ public class Game
      */
     public void loadWorld(WorldLoader loader) { loader.load(); }
 
-    public void accelerometerInput(float[] values) { Input.getInstance().setAccelerometerInput(values); }
+    public void accelerometerInput(float[] values) { Input.setAccelerometerInput(values); }
 
     /**
      * Starts the game
@@ -55,7 +55,7 @@ public class Game
     public void start()
     {
         World.current().start();
-        Time.getInstance().start(UPDATE_FREQUENCY);
+        Time.start(UPDATE_FREQUENCY);
     }
 
     /**
@@ -63,7 +63,7 @@ public class Game
      */
     public void stop()
     {
-        Time.getInstance().stop();
+        Time.stop();
 
         // Save preferences to file
         Assets.commit();
@@ -79,7 +79,7 @@ public class Game
      * Gets whether the game has started
      * @return Whether the game has started
      */
-    public boolean isStarted() { return Time.getInstance().isRunning(); }
+    public boolean isStarted() { return Time.isRunning(); }
 
     /**
      * Sets whether the game is currently paused or not
@@ -91,8 +91,8 @@ public class Game
         if (this.isPaused != isPaused)
         {
             // Pause or resume timer
-            if (isPaused) Time.getInstance().pause();
-            else Time.getInstance().resume();
+            if (isPaused) Time.pause();
+            else Time.resume();
 
             // Remember current state
             this.isPaused = isPaused;
@@ -122,8 +122,8 @@ public class Game
         {
             World.current().update();
 
-            Physics.getInstance().update();
-            Graphics.getInstance().draw();
+            Physics.update();
+            Graphics.draw();
 
             World.current().recycle();    // Recycle all destroyed objects now that update is complete
         }

@@ -21,7 +21,7 @@ public class TileMap extends Component
         tileSize = DEFAULT_TILE_SIZE;
 
         // Register the tile map with the physics object
-        Physics.getInstance().registerTileMap(this);
+        Physics.addTileMap(this);
     }
 
     /**
