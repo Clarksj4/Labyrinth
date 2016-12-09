@@ -4,7 +4,7 @@ package bit.clarksj4.labyrinth.Engine;
  * Component base class. A component is a unit of functionality. Many components attached to a game
  * object describe the sum of the given game objects available behaviours / functionality.
  */
-public abstract class Component
+public abstract class Component extends UIDObject
 {
     /** By default each component is enabled */
     private static final boolean DEFAULT_ENABLED = true;

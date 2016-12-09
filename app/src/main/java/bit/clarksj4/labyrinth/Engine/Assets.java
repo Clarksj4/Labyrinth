@@ -31,7 +31,8 @@ public class Assets
 
     public static boolean save(GameObject object)
     {
-        return save(object, GameObject.class, object.getName(), true);
+        throw new UnsupportedOperationException("GameObjects cannot currently be saved due to their graph structure.");
+//        return save(object, GameObject.class, object.getName(), true);
     }
 
     public static boolean save(Object object, Type type, String name, boolean overwrite)
@@ -42,7 +43,8 @@ public class Assets
 
     public static GameObject load(String name)
     {
-        return load(name, GameObject.class);
+        throw new UnsupportedOperationException("GameObjects cannot currently be loaded due to their graph structure.");
+//        return load(name, GameObject.class);
     }
 
     public static <T> T load(String name, Class<T> classOfT)

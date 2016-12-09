@@ -9,7 +9,7 @@ import java.util.Map;
  * World object equivalent to a single 'scene' in the game. World object holds reference to all
  * currently instantiated {@link GameObject}s.
  */
-public class World
+public class World extends UIDObject
 {
     public static World current() { return current; }
     private static World current = new World();
@@ -31,8 +31,10 @@ public class World
 
     public void start()
     {
-        for (GameObject object : objects)
-            object.start();
+        for (int i = 0; i < objects.size(); i++)
+            objects.get(i).start();
+//        for (GameObject object : objects)
+//            object.start();
     }
 
     public void update()

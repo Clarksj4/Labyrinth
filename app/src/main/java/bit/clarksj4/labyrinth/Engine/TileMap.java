@@ -1,7 +1,5 @@
 package bit.clarksj4.labyrinth.Engine;
 
-import java.util.Arrays;
-
 /**
  * A tilemap component
  */
@@ -168,14 +166,10 @@ public class TileMap extends Component
     {
         float top = getBounds().getTop();
         float dY = worldY - top;
+
         float index = dY / (tileSize * getTransform().getScale().x);
         int rounded = (int) Math.floor(index);
         int clamped = MathExtension.clamp(rounded, 0, getRows() - 1);
         return clamped;
-    }
-
-    private float columnToWorldX(int column)
-    {
-
     }
 }

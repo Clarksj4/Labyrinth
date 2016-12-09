@@ -70,25 +70,26 @@ public class LabyrinthWorldLoader extends WorldLoader
         //
         // Door
         //
-        GameObject doorObject = new GameObject("Door");
-        doorObject.getTransform().setPosition(new Vector(-592, 176));
-        doorObject.addComponent(Door.class);                            // Door script
-
-        // AnimationController
-        AnimationController doorAnimationController = doorObject.addComponent(AnimationController.class);
-        doorAnimationController.addAnimation(Assets.load("Door open", Animation.class));
-        doorAnimationController.addAnimation(Assets.load("Door opening", Animation.class));
-        doorAnimationController.addAnimation(Assets.load("Door closing", Animation.class));
-        doorAnimationController.addAnimation(Assets.load("Door closed", Animation.class));
-
-        // Collider
-        Collider doorCollider = doorObject.addComponent(Collider.class);
-        doorCollider.setSize(new Vector(32, 32));
-        doorCollider.setIsTrigger(true);
-
-        // Renderer
-        SpriteRenderer doorRenderer = doorObject.addComponent(SpriteRenderer.class);
-        doorRenderer.setZIndex(0);
+//        GameObject doorObject = new GameObject("Door");
+//        doorObject.getTransform().setPosition(new Vector(-592, 176));
+//        doorObject.addComponent(Door.class);                            // Door script
+//
+//        // AnimationController
+//        AnimationController doorAnimationController = doorObject.addComponent(AnimationController.class);
+//        doorAnimationController.addAnimation(Assets.load("Door open", Animation.class));
+//        doorAnimationController.addAnimation(Assets.load("Door opening", Animation.class));
+//        doorAnimationController.addAnimation(Assets.load("Door closing", Animation.class));
+//        doorAnimationController.addAnimation(Assets.load("Door closed", Animation.class));
+//
+//        // Collider
+//        Collider doorCollider = doorObject.addComponent(Collider.class);
+//        doorCollider.setSize(new Vector(32, 32));
+//        doorCollider.setIsTrigger(true);
+//
+//        // Renderer
+//        SpriteRenderer doorRenderer = doorObject.addComponent(SpriteRenderer.class);
+//        doorRenderer.setZIndex(0);
+//        Assets.save(doorObject);
         //
         // Dwarf
         //

@@ -1,10 +1,14 @@
 package bit.clarksj4.labyrinth.Labyrinth;
 
+import bit.clarksj4.labyrinth.Engine.Animation;
+import bit.clarksj4.labyrinth.Engine.AnimationController;
 import bit.clarksj4.labyrinth.Engine.Assets;
+import bit.clarksj4.labyrinth.Engine.Collider;
 import bit.clarksj4.labyrinth.Engine.Component;
 import bit.clarksj4.labyrinth.Engine.Coordinate;
 import bit.clarksj4.labyrinth.Engine.GameObject;
 import bit.clarksj4.labyrinth.Engine.MathExtension;
+import bit.clarksj4.labyrinth.Engine.SpriteRenderer;
 import bit.clarksj4.labyrinth.Engine.Tile;
 import bit.clarksj4.labyrinth.Engine.TileMap;
 import bit.clarksj4.labyrinth.Engine.Vector;
@@ -28,11 +32,11 @@ public class Labyrinth extends Component
     {
         tileMap = getComponent(TileMap.class);
 
-        int[][] tiles = MazeGenerator.generate(50, 50);
+        int[][] tiles = MazeGenerator.generate(20, 20);
         tileMap.setTiles(tiles);
 
         placeHoles();
-        placeDoor();
+        spawnDoor();
     }
 
     private void placeHoles()
@@ -46,30 +50,46 @@ public class Labyrinth extends Component
                 {
                     // 50% chance to turn wall into hole
                     if (Math.random() > 0.75f)
-                    {
                         tile.setValue(2);
-                    }
                 }
             }
         }
     }
 
-    private void placeDoor()
+    private void spawnDoor()
     {
+        // Remove wall at position
         Coordinate outerWall = randomAccessibleOuterWall();
+        tileMap.getTile(outerWall).setValue(0);
 
-        // TODO: convert coordinate to world position: TileMap.coordinateToWorldPosition()
+        // Get world position
+        Vector worldPosition = tileMap.getTile(outerWall).getBounds().center;
 
-        Vector worldPosition = tileMap.getComponent(TileMap.class);
+        // Create a new door at the world position
+        loadDoor(worldPosition);
+    }
 
-        GameObject door = Assets.load(doorPrefab);
+    private void loadDoor(Vector position)
+    {
+        GameObject doorObject = new GameObject("Door");
+        doorObject.getTransform().setPosition(position);
+        doorObject.addComponent(Door.class);                            // Door script
 
+        // AnimationController
+        AnimationController doorAnimationController = doorObject.addComponent(AnimationController.class);
+        doorAnimationController.addAnimation(Assets.load("Door open", Animation.class));
+        doorAnimationController.addAnimation(Assets.load("Door opening", Animation.class));
+        doorAnimationController.addAnimation(Assets.load("Door closing", Animation.class));
+        doorAnimationController.addAnimation(Assets.load("Door closed", Animation.class));
 
-        door.getTransform().setPosition();
+        // Collider
+        Collider doorCollider = doorObject.addComponent(Collider.class);
+        doorCollider.setSize(new Vector(32, 32));
+        doorCollider.setIsTrigger(true);
 
-        // TODO: remove wall
-        // TODO: Create door object here!
-        // TODO: prefabs! need door animations and images etc
+        // Renderer
+        SpriteRenderer doorRenderer = doorObject.addComponent(SpriteRenderer.class);
+        doorRenderer.setZIndex(0);
     }
 
     private Coordinate randomAccessibleOuterWall()

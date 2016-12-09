@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by Stephen on 25/11/2016.
  */
 
-public class Animation
+public class Animation extends UIDObject
 {
     private static final boolean DEFAULT_LOOP = false;
 

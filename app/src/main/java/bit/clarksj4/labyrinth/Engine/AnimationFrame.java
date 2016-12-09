@@ -9,7 +9,7 @@ import java.util.Comparator;
  * Created by Stephen on 27/11/2016.
  */
 
-public class AnimationFrame implements Comparable<AnimationFrame>
+public class AnimationFrame extends UIDObject implements Comparable<AnimationFrame>
 {
     public float time;
     public Class<?> component;

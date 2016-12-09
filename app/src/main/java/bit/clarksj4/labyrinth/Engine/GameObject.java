@@ -1,12 +1,11 @@
 package bit.clarksj4.labyrinth.Engine;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
  * An entity in the game. All units of behaviour must be attached to a game object.
  */
-public class GameObject
+public class GameObject extends UIDObject
 {
     /** The default name of a game object */
     private static final String DEFAULT_NAME = "Game Object";
