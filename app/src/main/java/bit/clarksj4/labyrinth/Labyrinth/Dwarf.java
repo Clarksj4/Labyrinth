@@ -2,6 +2,7 @@ package bit.clarksj4.labyrinth.Labyrinth;
 
 import java.util.ArrayList;
 
+import bit.clarksj4.labyrinth.Labyrinth.DwarfState.DwarfEnteringLevelState;
 import bit.clarksj4.labyrinth.Labyrinth.DwarfState.DwarfIdleState;
 import bit.clarksj4.labyrinth.Labyrinth.DwarfState.DwarfRespawningState;
 import bit.clarksj4.labyrinth.Labyrinth.DwarfState.DwarfState;
@@ -53,7 +54,7 @@ public class Dwarf extends Component implements Collider.TileContactListener, Co
         collider.addTileContactListener(this);
         collider.addCollisionBeginListener(this);
         collider.addCollisionContinueListener(this);
-        setState(new DwarfIdleState(this));
+        setState(new DwarfEnteringLevelState(this, getTransform().getPosition()));
 
         rigidbody = getComponent(Rigidbody.class);
         renderer = getComponent(SpriteRenderer.class);

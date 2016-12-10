@@ -6,17 +6,13 @@ package bit.clarksj4.labyrinth.Engine;
  */
 public abstract class Component extends UIDObject
 {
-    /** By default each component is enabled */
-    private static final boolean DEFAULT_ENABLED = true;
-
     /** The game object this component is attached to. Every component must be attached to a game object */
     protected GameObject gameObject;
-    private boolean enabled;
+    private boolean enabled = true;
 
     public Component(GameObject gameObject)
     {
         this.gameObject = gameObject;
-        enabled = DEFAULT_ENABLED;
 
         // Every component MUST be attached to a game object
         if (gameObject == null)

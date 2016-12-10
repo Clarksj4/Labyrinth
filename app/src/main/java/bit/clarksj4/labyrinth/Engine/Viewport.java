@@ -11,6 +11,9 @@ import java.util.Collection;
  */
 public class Viewport extends Component
 {
+    public static Viewport main() { return _main; }
+    private static Viewport _main;
+
     private static final float DEFAULT_MAGNITUDE = 750;
 
     private Display display;
@@ -25,11 +28,14 @@ public class Viewport extends Component
     {
         super(parent);
 
+        // Display to draw to defaults to the first display registered in the graphics object
+        display = Graphics.getDisplays().get(0);
+
         // Register self with graphics object
         Graphics.addViewport(this);
 
-        // Display to draw to defaults to the first display registered in the graphics object
-        display = Graphics.getDisplays().get(0);
+
+        if (_main == null) _main = this;
     }
 
     @Override
@@ -69,18 +75,21 @@ public class Viewport extends Component
 
         for (Renderer renderer : renderers)
         {
-            // Calculate renderer position on canvas
-            Vector rendererPosition = renderer.getBounds().center;
-            Vector viewportPosition = bounds.center;
-            Vector positionDelta = rendererPosition.subtract(viewportPosition);
+            if (renderer.isEnabled())
+            {
+                // Calculate renderer position on canvas
+                Vector rendererPosition = renderer.getBounds().center;
+                Vector viewportPosition = bounds.center;
+                Vector positionDelta = rendererPosition.subtract(viewportPosition);
 
-            Vector canvasCenter = bounds.size.divide(2);
-            Vector positionOnCanvas = positionDelta.add(canvasCenter);
+                Vector canvasCenter = bounds.size.divide(2);
+                Vector positionOnCanvas = positionDelta.add(canvasCenter);
 
-            // Calculate the area of renderer to draw
-            Rectangle intersection = bounds.intersection(renderer.getBounds());
-            if (intersection != null)
-                renderer.draw(canvas, intersection, positionOnCanvas);
+                // Calculate the area of renderer to draw
+                Rectangle intersection = bounds.intersection(renderer.getBounds());
+                if (intersection != null)
+                    renderer.draw(canvas, intersection, positionOnCanvas);
+            }
         }
         display.drawCanvas(canvas);
     }
@@ -92,10 +101,13 @@ public class Viewport extends Component
     public Rectangle getSourceBounds() { return new Rectangle(getTransform().getPosition(), sourceSize); }
 
     /**
-     * Gets the magnitude of the world boudns that this viewport will draw
-     * @param magnitude The magnitude of the world boudns that this viewport will draw
+     * Gets the magnitude of the world bounds that this viewport will draw
+     * @param magnitude The magnitude of the world bounds that this viewport will draw
      */
-    public void setSourceMagnitude(float magnitude) { sourceSize = display.getSizeNormalized().scale(magnitude); }
+    public void setSourceMagnitude(float magnitude)
+    {
+        sourceSize = display.getSizeNormalized().scale(magnitude);
+    }
 
     /**
      * Sets the size of the game world bounds that this viewport will draw
@@ -114,4 +126,6 @@ public class Viewport extends Component
      * @param display The display this viewport will draw to
      */
     public void setDisplay(Display display) { this.display = display; }
+
+    public static void setMainViewport(Viewport main) { _main = main; }
 }

@@ -33,8 +33,6 @@ public class World extends UIDObject
     {
         for (int i = 0; i < objects.size(); i++)
             objects.get(i).start();
-//        for (GameObject object : objects)
-//            object.start();
     }
 
     public void update()

@@ -53,6 +53,12 @@ public class LabyrinthWorldLoader extends WorldLoader
     public void load()
     {
         //
+        // Viewport
+        //
+        GameObject viewportObject = new GameObject("Viewport");
+        viewportObject.addComponent(Viewport.class);
+
+        //
         // Tile map
         //
         GameObject tileMapObject = new GameObject("TileMap");
@@ -71,8 +77,10 @@ public class LabyrinthWorldLoader extends WorldLoader
         // Dwarf
         //
         GameObject dwarfObject = new GameObject("Dwarf");
-        dwarfObject.addComponent(Dwarf.class);                              // Dwarf script
-        dwarfObject.addComponent(AccelerometerGravity.class);               // Gravity script
+        viewportObject.getTransform().setParent(dwarfObject.getTransform());    // Follow camera
+        viewportObject.getTransform().setLocalPosition(Vector.zero());          // Centered on dwarf
+        dwarfObject.addComponent(Dwarf.class);                                  // Dwarf script
+        dwarfObject.addComponent(AccelerometerGravity.class);                   // Gravity script
 
         // AnimationController
         AnimationController dwarfAnimationController = dwarfObject.addComponent(AnimationController.class);
@@ -89,13 +97,7 @@ public class LabyrinthWorldLoader extends WorldLoader
         // Renderer
         SpriteRenderer dwarfSpriteRenderer = dwarfObject.addComponent(SpriteRenderer.class);
         dwarfSpriteRenderer.setZIndex(1);
-        //
-        // Viewport
-        //
-        GameObject viewportObject = new GameObject("Viewport");
-        viewportObject.getTransform().setParent(dwarfObject.getTransform());    // Child of dwarf
-        viewportObject.getTransform().setLocalPosition(Vector.zero());          // Centered on dwarf
-        viewportObject.addComponent(Viewport.class);
+
         //
         // Current time text
         //

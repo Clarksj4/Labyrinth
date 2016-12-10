@@ -14,7 +14,7 @@ public class Game
     public static final int UNIT = 32;
 
     /** How frequently the game updates in milliseconds */
-    private static final long UPDATE_FREQUENCY = 30;
+    private static final long UPDATE_FREQUENCY = 20;
 
     private GameOverListener gameOverListener;
     private boolean isPaused;

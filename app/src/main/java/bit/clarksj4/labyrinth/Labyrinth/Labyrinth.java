@@ -6,11 +6,14 @@ import bit.clarksj4.labyrinth.Engine.Assets;
 import bit.clarksj4.labyrinth.Engine.Collider;
 import bit.clarksj4.labyrinth.Engine.Component;
 import bit.clarksj4.labyrinth.Engine.Coordinate;
+import bit.clarksj4.labyrinth.Engine.Game;
 import bit.clarksj4.labyrinth.Engine.GameObject;
 import bit.clarksj4.labyrinth.Engine.MathExtension;
+import bit.clarksj4.labyrinth.Engine.Rectangle;
 import bit.clarksj4.labyrinth.Engine.SpriteRenderer;
 import bit.clarksj4.labyrinth.Engine.Tile;
 import bit.clarksj4.labyrinth.Engine.TileMap;
+import bit.clarksj4.labyrinth.Engine.UniformArrays;
 import bit.clarksj4.labyrinth.Engine.Vector;
 
 /**
@@ -37,6 +40,21 @@ public class Labyrinth extends Component
 
         placeHoles();
         spawnDoor();
+        clearCenterArea();
+    }
+
+    private void clearCenterArea()
+    {
+        Rectangle dwarfStartBounds = new Rectangle(Vector.zero(), Vector.one().scale(Game.UNIT));
+        Tile[][] centreArea = tileMap.getTiles(dwarfStartBounds);
+
+        for (int column = 0; column < UniformArrays.getColumns(centreArea); column++)
+        {
+            for (int row = 0; row < UniformArrays.getRows(centreArea); row++)
+            {
+                UniformArrays.get(centreArea, column, row).setValue(1);
+            }
+        }
     }
 
     private void placeHoles()

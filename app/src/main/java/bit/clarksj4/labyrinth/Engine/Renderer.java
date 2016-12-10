@@ -8,19 +8,14 @@ import android.graphics.Canvas;
 public abstract class Renderer extends Component implements Comparable<Renderer>
 {
     private static final float DEFAULT_Z_INDEX = 0;
-
-    private float zIndex;
+    private float zIndex = DEFAULT_Z_INDEX;
 
     /**
      * A new renderer component attached to the given parent game object
-     * @param parent
      */
     public Renderer(GameObject parent)
     {
         super(parent);
-
-        zIndex = DEFAULT_Z_INDEX;
-
         Graphics.addRenderer(this);
     }
 
@@ -42,7 +37,6 @@ public abstract class Renderer extends Component implements Comparable<Renderer>
     /**
      * Sets the z-index of this renderer. The z-index defines the order in which renderers will draw
      * to the canvas
-     * @param zIndex
      */
     public void setZIndex(float zIndex)
     {

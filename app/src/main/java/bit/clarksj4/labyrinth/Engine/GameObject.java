@@ -13,6 +13,7 @@ public class GameObject extends UIDObject
     private String name;
     private ArrayList<Component> components;
     private Transform transform;
+    private boolean enabled = true;
 
     /**
      * A new game object with the default name
@@ -65,6 +66,23 @@ public class GameObject extends UIDObject
 
         // Remove this object from world
         World.current().destroy(this);
+    }
+
+    public void setEnabled(boolean enabled)
+    {
+        if (this.enabled != enabled)
+        {
+            this.enabled = enabled;
+
+            // Enable / disable all attached components
+            for (Component component : components)
+                component.setEnabled(enabled);
+
+            // Enable / disable all children objects
+            ArrayList<Transform> children = transform.getChildren();
+            for (Transform child : children)
+                child.gameObject.setEnabled(enabled);
+        }
     }
 
     /**

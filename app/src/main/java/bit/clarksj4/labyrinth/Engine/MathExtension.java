@@ -9,6 +9,24 @@ public class MathExtension
 {
     private static Random random = new Random();
 
+    public static Vector onUnitCircle()
+    {
+        return insideUnitCircle().normalized();
+    }
+
+    public static Vector insideUnitCircle()
+    {
+        double rand = random.nextDouble();
+
+        double a = 2 * Math.PI * rand;
+        double r = Math.sqrt(rand);
+
+        double x = r * Math.cos(a);
+        double y = r * Math.sin(a);
+
+        return new Vector((float)x, (float)y);
+    }
+
     public static boolean random()
     {
         return random.nextBoolean();
