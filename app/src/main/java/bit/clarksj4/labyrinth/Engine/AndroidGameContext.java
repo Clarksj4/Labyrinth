@@ -2,6 +2,11 @@ package bit.clarksj4.labyrinth.Engine;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Vibrator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,11 +27,48 @@ public class AndroidGameContext extends GameContext
     public static final String PREFERENCES_KEY = "Labyrinth";
 
     private Context context;
+    private Vibrator vibrator;
+
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private AccelerometerListener accelerometerListener;
+
+    private float[] accelerometerInput;
 
     public AndroidGameContext(Context context)
     {
         this.context = context;
+
+        vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+
+        // Get sensor manager and accelerometer
+        sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
+
+    @Override
+    void gameResumed()
+    {
+        // Create and register a new accelerometer listener
+        accelerometerListener = new AccelerometerListener();
+        sensorManager.registerListener(accelerometerListener, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    @Override
+    void gamePaused()
+    {
+        // Unregister accelerometer listener
+        sensorManager.unregisterListener(accelerometerListener);
+    }
+
+    @Override
+    public void vibrate(long milliseconds)
+    {
+        vibrator.vibrate(milliseconds);
+    }
+
+    @Override
+    public float[] getAccelerometerInput() { return accelerometerInput; }
 
     @Override
     public void savePreferences(Map<String, Object> preferences)
@@ -126,5 +168,13 @@ public class AndroidGameContext extends GameContext
 
         // Some error has occurred, no json to return
         return null;
+    }
+
+    private class AccelerometerListener implements SensorEventListener
+    {
+        @Override
+        public void onSensorChanged(SensorEvent event) { accelerometerInput = event.values; }
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) { /* Nothing! */ }
     }
 }

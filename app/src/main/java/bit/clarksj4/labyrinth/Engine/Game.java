@@ -37,6 +37,8 @@ public class Game
     {
         this.context = context;
         Assets.init(context);
+        Input.init(context);
+        Hardware.init(context);
 
         Time.addTickListener(new GameCycle());
     }
@@ -47,26 +49,43 @@ public class Game
      */
     public void loadWorld(WorldLoader loader) { loader.load(); }
 
-    public void accelerometerInput(float[] values) { Input.setAccelerometerInput(values); }
-
-    /**
-     * Starts the game
-     */
+    /** Starts the game  */
     public void start()
     {
+        context.gameResumed();
         World.current().start();
         Time.start(UPDATE_FREQUENCY);
     }
 
-    /**
-     * Stops the game
-     */
+    /** Stops the game */
     public void stop()
     {
-        Time.stop();
+        if (isStarted())
+        {
+            Time.stop();
+            Assets.commit();    // Save preferences to file
+        }
+    }
 
-        // Save preferences to file
-        Assets.commit();
+    public void pause()
+    {
+        // If paused state is changing
+        if (!isPaused)
+        {
+            Time.pause();
+            context.gamePaused();
+            isPaused = true;
+        }
+    }
+
+    public void resume()
+    {
+        if (isPaused)
+        {
+            Time.resume();
+            context.gameResumed();
+            isPaused = true;
+        }
     }
 
     /**
@@ -82,36 +101,11 @@ public class Game
     public boolean isStarted() { return Time.isRunning(); }
 
     /**
-     * Sets whether the game is currently paused or not
-     * @param isPaused Whether the game is currently paused
-     */
-    public void setPaused(boolean isPaused)
-    {
-        // If paused state is changing
-        if (this.isPaused != isPaused)
-        {
-            // Pause or resume timer
-            if (isPaused) Time.pause();
-            else Time.resume();
-
-            // Remember current state
-            this.isPaused = isPaused;
-        }
-    }
-
-    public GameContext getContext()
-    {
-        return context;
-    }
-
-    /**
      * Interface for listening for when the game has ended
      */
     interface GameOverListener
     {
-        /**
-         * Called when the game has ended.
-         */
+        /** Called when the game has ended. */
         void gameOver();
     }
 

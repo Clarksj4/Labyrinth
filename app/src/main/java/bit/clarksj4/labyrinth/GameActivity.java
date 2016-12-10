@@ -1,10 +1,5 @@
 package bit.clarksj4.labyrinth;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
@@ -17,10 +12,6 @@ import bit.clarksj4.labyrinth.Labyrinth.LabyrinthWorldLoader;
 
 public class GameActivity extends AppCompatActivity
 {
-    private SensorManager sensorManager;
-    private Sensor accelerometer;
-    private AccelerometerListener accelerometerListener;
-
     private SurfaceView gameView;
     private Game game;
 
@@ -29,14 +20,6 @@ public class GameActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
-        // Get sensor manager and accelerometer
-        sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        //If there is no accelerometer, exit the game
-        if (accelerometer == null)
-            finish();
 
         // SurfaceView where the game is played
         gameView = (SurfaceView)findViewById(R.id.gameSurfaceView);
@@ -63,30 +46,14 @@ public class GameActivity extends AppCompatActivity
         // Stop screen from dimming during play
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        // Create and register a new accelerometer listener
-        accelerometerListener = new AccelerometerListener();
-        sensorManager.registerListener(accelerometerListener, accelerometer, SensorManager.SENSOR_DELAY_GAME);
-
-        game.setPaused(false);
+        game.resume();
     }
 
     @Override
     protected void onPause()
     {
         super.onPause();
-
-        // Unregister accelerometer listener
-        sensorManager.unregisterListener(accelerometerListener);
-
-        game.setPaused(true);
-    }
-
-    private class AccelerometerListener implements SensorEventListener
-    {
-        @Override
-        public void onSensorChanged(SensorEvent event) { game.accelerometerInput(event.values); }
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) { /* Nothing! */ }
+        game.pause();
     }
 
     private class SurfaceHandler implements SurfaceHolder.Callback
@@ -94,15 +61,13 @@ public class GameActivity extends AppCompatActivity
         @Override
         public void surfaceCreated(SurfaceHolder holder)
         {
-            if  (game.isStarted())
-                game.setPaused(false);
-            else
-                game.start();
+            if  (game.isStarted()) game.pause();
+            else game.start();
         }
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { /* Nothing! */ }
         @Override
-        public void surfaceDestroyed(SurfaceHolder holder) { game.setPaused(true); }
+        public void surfaceDestroyed(SurfaceHolder holder) { game.pause(); }
     }
 }

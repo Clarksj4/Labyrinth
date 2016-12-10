@@ -2,6 +2,7 @@ package bit.clarksj4.labyrinth.Labyrinth.DwarfState;
 
 import bit.clarksj4.labyrinth.Engine.AnimationController;
 import bit.clarksj4.labyrinth.Engine.GameObject;
+import bit.clarksj4.labyrinth.Engine.Hardware;
 import bit.clarksj4.labyrinth.Engine.MathExtension;
 import bit.clarksj4.labyrinth.Engine.Renderer;
 import bit.clarksj4.labyrinth.Engine.Rigidbody;
@@ -18,6 +19,7 @@ import bit.clarksj4.labyrinth.Labyrinth.Dwarf;
 
 public class DwarfEnteringLevelState extends DwarfState
 {
+    private static final float SHAKE_INTENSITY = 3f;
     private static final float SCREEN_SHAKE_DURATION = 1f;
     private static final float DWARF_FALL_DURATION = 0.75f;
 
@@ -27,6 +29,7 @@ public class DwarfEnteringLevelState extends DwarfState
     private Vector landingPosition;
     private float time;
     private boolean even;
+    private boolean vibrating = false;
 
     public DwarfEnteringLevelState(Dwarf dwarf, Vector landingPosition)
     {
@@ -70,8 +73,14 @@ public class DwarfEnteringLevelState extends DwarfState
             dwarf.getTransform().setPosition(landingPosition);
             Transform cameraTransform = followCamera.getTransform();
 
+            if (!vibrating)
+            {
+                vibrating = true;
+                Hardware.vibrate((long)(SCREEN_SHAKE_DURATION * 1000 * 0.9));
+            }
+
             if (even)
-                cameraTransform.setPosition(cameraTransform.getPosition().add(MathExtension.onUnitCircle().scale(3)));
+                cameraTransform.setPosition(cameraTransform.getPosition().add(MathExtension.onUnitCircle().scale(SHAKE_INTENSITY)));
 
             else
                 cameraTransform.setPosition(landingPosition);
