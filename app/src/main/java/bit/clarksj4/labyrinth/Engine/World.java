@@ -1,9 +1,7 @@
 package bit.clarksj4.labyrinth.Engine;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 /**
  * World object equivalent to a single 'scene' in the game. World object holds reference to all
@@ -14,12 +12,6 @@ public class World extends UIDObject
     public static World current() { return current; }
     private static World current = new World();
 
-    public static void load(World world)
-    {
-        current.end();
-        current = world;
-    }
-
     private ArrayList<GameObject> recycleBin;
     private LinkedList<GameObject> objects;
 
@@ -27,6 +19,12 @@ public class World extends UIDObject
     {
         objects = new LinkedList<>();
         recycleBin = new ArrayList<>();
+    }
+
+    public static void load(World world)
+    {
+        current.end();
+        current = world;
     }
 
     public void start()
@@ -46,6 +44,12 @@ public class World extends UIDObject
     public void add(GameObject object) { objects.add(object); }
 
     public void destroy(GameObject toBeDestroyed) { recycleBin.add(toBeDestroyed); }
+
+    public void close()
+    {
+        objects.clear();
+        recycleBin.clear();
+    }
 
     void recycle()
     {

@@ -63,7 +63,7 @@ public class Game
         if (isStarted())
         {
             Time.stop();
-            Assets.commit();    // Save preferences to file
+            context.gamePaused();
         }
     }
 
@@ -73,6 +73,7 @@ public class Game
         if (!isPaused)
         {
             Time.pause();
+            Assets.commit();    // Save preferences to file
             context.gamePaused();
             isPaused = true;
         }

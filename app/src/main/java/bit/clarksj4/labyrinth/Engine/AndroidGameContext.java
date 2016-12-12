@@ -87,7 +87,7 @@ public class AndroidGameContext extends GameContext
             else if(value instanceof Boolean) editor.putBoolean(key, (boolean)value);
             else if(value instanceof Long) editor.putLong(key, (long)value);
         }
-        editor.commit();    // Apply immediately: game is closing
+        editor.apply();
     }
 
     @Override
