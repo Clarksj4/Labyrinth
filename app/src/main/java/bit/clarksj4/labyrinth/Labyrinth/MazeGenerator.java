@@ -1,6 +1,7 @@
 package bit.clarksj4.labyrinth.Labyrinth;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import bit.clarksj4.labyrinth.Engine.CollectionExtension;
 import bit.clarksj4.labyrinth.Engine.Coordinate;
@@ -25,18 +26,22 @@ class MazeGenerator
     static final int OPEN = 1;
     static final int WALL = 3;
 
-    static int[][] generate(int width, int height)
+    static int[][] generate(int width, int height, Random random)
     {
+        // New random instance with given seed, so can recreate a map by given the same seed
         int[][] tiles = new int[height][width];
 
+        // All outside tiles begin as walls
         createOutsideWalls(tiles);
+
+        // Assemble a list of all tiles that are allowed to be filled with a wall (see rules of maze generation)
         ArrayList<Coordinate> validTiles = getValidTiles(tiles);
         while(validTiles.size() > 0)
         {
-            Coordinate position = CollectionExtension.popRandom(validTiles);
-            UniformArrays.set(tiles, position.x, position.y, WALL);
+            Coordinate position = CollectionExtension.popRandom(validTiles, random);        // Get a random valid tile
+            UniformArrays.set(tiles, position.x, position.y, WALL);                         // Set it to be a wall
 
-            updateSurroundingValidTiles(tiles, position, validTiles);
+            updateSurroundingValidTiles(tiles, position, validTiles);                       // Update the valid tiles list
         }
 
         return tiles;

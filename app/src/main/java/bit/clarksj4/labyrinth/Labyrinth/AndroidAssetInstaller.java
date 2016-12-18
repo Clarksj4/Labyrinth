@@ -1,4 +1,4 @@
-package bit.clarksj4.labyrinth.Engine;
+package bit.clarksj4.labyrinth.Labyrinth;
 
 import android.content.Context;
 import android.content.res.Resources;
