@@ -9,6 +9,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Vibrator;
 
 import java.io.BufferedReader;
@@ -29,6 +32,7 @@ public class AndroidGameContext extends GameContext
     /** Preferences are saved under this key */
     public static final String PREFERENCES_KEY = "Labyrinth";
 
+    private MediaPlayer mediaPlayer;
     private Context context;
     private Resources resources;
     private Vibrator vibrator;
@@ -49,6 +53,20 @@ public class AndroidGameContext extends GameContext
         // Get sensor manager and accelerometer
         sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
+    }
+
+    public void playAudio(String audio, float leftVolume, float rightVolume)
+    {
+        String test = context.getPackageName();
+        int resID = resources.getIdentifier(audio , "raw", context.getPackageName());
+
+        mediaPlayer = MediaPlayer.create(context, resID);
+        //player.setVolume(leftVolume, rightVolume);
+        mediaPlayer.start();
     }
 
     public Bitmap getBitmap(String name)

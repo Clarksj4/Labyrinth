@@ -13,6 +13,13 @@ public class Graphics
     private static ArrayList<Viewport> viewports = new ArrayList<>();
     private static ArrayList<Renderer> renderers = new ArrayList<>();
 
+    static void release()
+    {
+        displays = null;
+        viewports = null;
+        renderers = null;
+    }
+
     /** Tells all viewports to draw */
     static void draw()
     {

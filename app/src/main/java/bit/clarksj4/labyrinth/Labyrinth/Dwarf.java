@@ -2,6 +2,7 @@ package bit.clarksj4.labyrinth.Labyrinth;
 
 import java.util.ArrayList;
 
+import bit.clarksj4.labyrinth.Engine.AudioSource;
 import bit.clarksj4.labyrinth.Labyrinth.DwarfState.DwarfEnteringLevelState;
 import bit.clarksj4.labyrinth.Labyrinth.DwarfState.DwarfIdleState;
 import bit.clarksj4.labyrinth.Labyrinth.DwarfState.DwarfRespawningState;
@@ -58,6 +59,8 @@ public class Dwarf extends Component implements Collider.TileContactListener, Co
 
         rigidbody = getComponent(Rigidbody.class);
         renderer = getComponent(SpriteRenderer.class);
+
+        getComponent(AudioSource.class).play("the_looming_battle.ogg");
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class World extends UIDObject
 {
     public static World current() { return current; }
-    private static World current = new World();
+    private static World current;
 
     private ArrayList<GameObject> recycleBin;
     private LinkedList<GameObject> objects;
@@ -23,7 +23,9 @@ public class World extends UIDObject
 
     public static void load(World world)
     {
-        current.end();
+        if (current != null)
+            current.end();
+
         current = world;
     }
 
@@ -39,17 +41,16 @@ public class World extends UIDObject
             object.update();
     }
 
-    public void end() { /* World is ending, new world may be loading. */ }
+    public void end()
+    {
+        objects.clear();
+        recycleBin.clear();
+        current = null;
+    }
 
     public void add(GameObject object) { objects.add(object); }
 
     public void destroy(GameObject toBeDestroyed) { recycleBin.add(toBeDestroyed); }
-
-    public void close()
-    {
-        objects.clear();
-        recycleBin.clear();
-    }
 
     void recycle()
     {

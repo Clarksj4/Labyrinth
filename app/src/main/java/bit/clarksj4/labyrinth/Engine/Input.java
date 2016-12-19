@@ -8,7 +8,12 @@ public class Input
     private static GameContext _context;
 
     // TODO: other inputs and stuff
-    public static void init(GameContext context) { _context = context; }
+    static void init(GameContext context) { _context = context; }
+
+    static void release()
+    {
+        _context = null;
+    }
 
     /**
      * Gets the accelerometer input as at the current frame.

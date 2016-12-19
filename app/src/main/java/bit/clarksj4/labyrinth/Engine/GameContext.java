@@ -14,6 +14,7 @@ abstract class GameContext
     void gameResumed() { /* Nothing */ }
     void gamePaused() { /* Nothing */ }
 
+    abstract void playAudio(String audio, float leftVolume, float rightVolume);
     void vibrate(long milliseconds) { /* Nothing */ }
     float[] getAccelerometerInput() { return null; }
 
