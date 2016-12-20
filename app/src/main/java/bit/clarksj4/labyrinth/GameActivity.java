@@ -34,7 +34,7 @@ public class GameActivity extends AppCompatActivity
         // Give game a display in surfaceChanged
 
         game = Game.Android(this, gameView);
-        game.loadWorld(new LabyrinthWorldLoader(game));
+        game.loadWorld(new LabyrinthWorldLoader());
 
         Toast.makeText(this, "Created", Toast.LENGTH_SHORT).show();
     }

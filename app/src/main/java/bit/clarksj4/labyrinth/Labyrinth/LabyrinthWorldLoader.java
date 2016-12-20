@@ -17,6 +17,7 @@ import bit.clarksj4.labyrinth.Engine.TileMap;
 import bit.clarksj4.labyrinth.Engine.TileMapRenderer;
 import bit.clarksj4.labyrinth.Engine.Vector;
 import bit.clarksj4.labyrinth.Engine.Viewport;
+import bit.clarksj4.labyrinth.Engine.World;
 import bit.clarksj4.labyrinth.Engine.WorldLoader;
 
 /**
@@ -44,26 +45,21 @@ public class LabyrinthWorldLoader extends WorldLoader
     // TODO: Allow for world (scene) switching
     // TODO: Rigidbody collisions can be turned off (isKinematic or just disabled etc)
 
-
-
-
-
-    public LabyrinthWorldLoader(Game game) { super(game); }
-
     @Override
-    public void load()
+    public World load()
     {
+        World world = new World();
         //
         // Viewport
         //
-        GameObject viewportObject = new GameObject("Viewport");
+        GameObject viewportObject = new GameObject("Viewport", world);
         viewportObject.addComponent(Viewport.class);
         viewportObject.addComponent(AudioListener.class);
 
         //
         // Tile map
         //
-        GameObject tileMapObject = new GameObject("TileMap");
+        GameObject tileMapObject = new GameObject("TileMap", world);
         tileMapObject.addComponent(TileMap.class);
         tileMapObject.addComponent(Labyrinth.class);
 
@@ -78,7 +74,7 @@ public class LabyrinthWorldLoader extends WorldLoader
         //
         // Dwarf
         //
-        GameObject dwarfObject = new GameObject("Dwarf");
+        GameObject dwarfObject = new GameObject("Dwarf", world);
         viewportObject.getTransform().setParent(dwarfObject.getTransform());    // Follow camera
         viewportObject.getTransform().setLocalPosition(Vector.zero());          // Centered on dwarf
         dwarfObject.addComponent(Dwarf.class);                                  // Dwarf script
@@ -104,7 +100,7 @@ public class LabyrinthWorldLoader extends WorldLoader
         //
         // Current time text
         //
-        GameObject currentTimeText = new GameObject("Current time");
+        GameObject currentTimeText = new GameObject("Current time", world);
         currentTimeText.addComponent(LabyrinthUI.class);
         currentTimeText.getTransform().setParent(viewportObject.getTransform());    // Child of viewport
 
@@ -117,7 +113,7 @@ public class LabyrinthWorldLoader extends WorldLoader
         //
         // Fastest time text
         //
-        GameObject fastestTimeText = new GameObject("Fastest Time");
+        GameObject fastestTimeText = new GameObject("Fastest Time", world);
         fastestTimeText.getTransform().setParent(currentTimeText.getTransform());
         fastestTimeText.getTransform().setLocalPosition(new Vector(0, 50));
 
@@ -127,5 +123,7 @@ public class LabyrinthWorldLoader extends WorldLoader
         fastestTimeRenderer.setTextSize(35);
         fastestTimeRenderer.setTextStyle(TextRenderer.TextStyle.BOLD);
         fastestTimeRenderer.setZIndex(2);
+
+        return world;
     }
 }

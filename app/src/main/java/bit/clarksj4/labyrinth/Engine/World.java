@@ -15,13 +15,13 @@ public class World extends UIDObject
     private ArrayList<GameObject> recycleBin;
     private LinkedList<GameObject> objects;
 
-    private World()
+    public World()
     {
         objects = new LinkedList<>();
         recycleBin = new ArrayList<>();
     }
 
-    public static void load(World world)
+    public static void setCurrent(World world)
     {
         if (current != null)
             current.end();
@@ -45,7 +45,9 @@ public class World extends UIDObject
     {
         objects.clear();
         recycleBin.clear();
-        current = null;
+
+        if (this == current)
+            current = null;
     }
 
     public void add(GameObject object) { objects.add(object); }

@@ -13,6 +13,7 @@ abstract class GameContext
 {
     void gameResumed() { /* Nothing */ }
     void gamePaused() { /* Nothing */ }
+    void release() { /* Nothing */ }
 
     abstract void playAudio(String audio, float leftVolume, float rightVolume);
     void vibrate(long milliseconds) { /* Nothing */ }

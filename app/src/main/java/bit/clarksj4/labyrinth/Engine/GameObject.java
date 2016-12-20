@@ -14,17 +14,16 @@ public class GameObject extends UIDObject
     private ArrayList<Component> components;
     private Transform transform;
     private boolean enabled = true;
+    private World world;
 
-    /**
-     * A new game object with the default name
-     */
+    /** A new game object with the default name */
     public GameObject() { this(DEFAULT_NAME); }
 
-    /**
-     * A new game object with the given name
-     * @param name The name of this game object
-     */
-    public GameObject(String name)
+    /** A game object with the given name */
+    public GameObject(String name) { this(name, World.current()); }
+
+    /** A game object with the given name that belongs to the given world */
+    public GameObject(String name, World world)
     {
         this.name = name;
 
@@ -33,7 +32,8 @@ public class GameObject extends UIDObject
         transform = addComponent(Transform.class);      // EVERY game object gets a transform
 
         // Add this game object to world
-        World.current().add(this);
+        world.add(this);
+        this.world = world;
     }
 
     /**
@@ -65,7 +65,8 @@ public class GameObject extends UIDObject
             component.destroy();
 
         // Remove this object from world
-        World.current().destroy(this);
+        world.destroy(this);
+        world = null;
     }
 
     public void setEnabled(boolean enabled)

@@ -25,18 +25,8 @@ import bit.clarksj4.labyrinth.Engine.WorldLoader;
 
 public class MenuWorldLoader extends WorldLoader
 {
-    /**
-     * A new loader object that will load objects to the given game
-     *
-     * @param game The game that this loader will load objects to
-     */
-    public MenuWorldLoader(Game game)
-    {
-        super(game);
-    }
-
     @Override
-    public void load()
+    public World load()
     {
         // Viewport
         // Tilemap -> Lower third of screen
@@ -49,18 +39,18 @@ public class MenuWorldLoader extends WorldLoader
         // Seed input field
         // High scores
 
-
+        World world = new World();
 
         //
         // Viewport
         //
-        GameObject viewportObject = new GameObject("Viewport");
+        GameObject viewportObject = new GameObject("Viewport", world);
         viewportObject.addComponent(Viewport.class);
 
         //
         // Tile map
         //
-        GameObject tileMapObject = new GameObject("TileMap");
+        GameObject tileMapObject = new GameObject("TileMap", world);
         tileMapObject.addComponent(TileMap.class);
         tileMapObject.addComponent(Labyrinth.class);
 
@@ -75,7 +65,7 @@ public class MenuWorldLoader extends WorldLoader
         //
         // Dwarf
         //
-        GameObject dwarfObject = new GameObject("Dwarf");
+        GameObject dwarfObject = new GameObject("Dwarf", world);
         viewportObject.getTransform().setParent(dwarfObject.getTransform());    // Follow camera
         viewportObject.getTransform().setLocalPosition(Vector.zero());          // Centered on dwarf
         dwarfObject.addComponent(Dwarf.class);                                  // Dwarf script
@@ -96,5 +86,7 @@ public class MenuWorldLoader extends WorldLoader
         // Renderer
         SpriteRenderer dwarfSpriteRenderer = dwarfObject.addComponent(SpriteRenderer.class);
         dwarfSpriteRenderer.setZIndex(1);
+
+        return world;
     }
 }

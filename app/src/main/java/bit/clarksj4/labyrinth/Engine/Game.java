@@ -2,7 +2,7 @@ package bit.clarksj4.labyrinth.Engine;
 
 // TODO: on game start need to: make timer, init context, display
 
-import android.content.Context;
+import android.app.Activity;
 import android.view.SurfaceView;
 
 import bit.clarksj4.labyrinth.Labyrinth.AndroidAssetInstaller;
@@ -22,19 +22,16 @@ public class Game
     private boolean isPaused;
     private GameContext context;
 
-    public static Game Android(Context context, SurfaceView view)
+    public static Game Android(Activity activity, SurfaceView view)
     {
-        Game game = new Game(new AndroidGameContext(context));
+        Game game = new Game(new AndroidGameContext(activity));
 
-        Graphics.addDisplay(new Display(view, context.getResources().getDisplayMetrics()));
-        AndroidAssetInstaller.install(context);
+        Graphics.addDisplay(new Display(view, activity.getResources().getDisplayMetrics()));
+        AndroidAssetInstaller.install(activity);
 
         return game;
     }
 
-    /**
-     * A new game
-     */
     private Game(GameContext context)
     {
         this.context = context;
@@ -50,7 +47,10 @@ public class Game
      * Populates the world in the manner described by the given WorldLoader object
      * @param loader An object that describes what to load into the world
      */
-    public void loadWorld(WorldLoader loader) { loader.load(); }
+    public void loadWorld(WorldLoader loader)
+    {
+        World.setCurrent(loader.load());
+    }
 
     /** Starts the game  */
     public void start()
@@ -67,6 +67,7 @@ public class Game
         {
             Time.stop();
             context.gamePaused();
+            context.release();
 
             World.current().end();
 
