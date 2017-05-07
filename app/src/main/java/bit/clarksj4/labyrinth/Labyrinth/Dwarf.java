@@ -60,7 +60,7 @@ public class Dwarf extends Component implements Collider.TileContactListener, Co
         rigidbody = getComponent(Rigidbody.class);
         renderer = getComponent(SpriteRenderer.class);
 
-        getComponent(AudioSource.class).play("the_looming_battle");
+        getComponent(AudioSource.class).play("the_looming_battle.ogg");
     }
 
     @Override

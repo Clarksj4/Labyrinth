@@ -20,7 +20,7 @@ public class Display
      * @param surfaceView The surface view to draw to
      * @param displayMetrics The density of screen pixels and other display metrics
      */
-    public Display(SurfaceHolder surfaceView, DisplayMetrics displayMetrics)
+    public Display(SurfaceView surfaceView, DisplayMetrics displayMetrics)
     {
         this.surfaceView = surfaceView;
         this.displayMetrics = displayMetrics;

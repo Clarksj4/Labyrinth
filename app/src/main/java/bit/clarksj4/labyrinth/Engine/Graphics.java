@@ -34,8 +34,6 @@ public class Graphics
      */
     static void addDisplay(Display display) { displays.add(display); }
 
-    static void removeDisplay(Display display) { displays.remove(display); }
-
     /**
      * Registers a viewport with this graphics object.
      * @param viewport The new viewport
