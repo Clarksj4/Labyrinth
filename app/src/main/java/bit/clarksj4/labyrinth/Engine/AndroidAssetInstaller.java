@@ -6,9 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import bit.clarksj4.labyrinth.Engine.Animation;
-import bit.clarksj4.labyrinth.Engine.Assets;
-import bit.clarksj4.labyrinth.Engine.SpriteRenderer;
 import bit.clarksj4.labyrinth.R;
 
 /**

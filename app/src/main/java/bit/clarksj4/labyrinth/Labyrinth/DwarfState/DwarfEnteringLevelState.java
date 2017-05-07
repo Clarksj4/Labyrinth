@@ -73,7 +73,6 @@ public class DwarfEnteringLevelState extends DwarfState
             dwarf.getTransform().setPosition(landingPosition);
             Transform cameraTransform = followCamera.getTransform();
 
-
             if (!vibrating)
             {
                 vibrating = true;
@@ -82,7 +81,9 @@ public class DwarfEnteringLevelState extends DwarfState
 
             if (even)
                 cameraTransform.setPosition(cameraTransform.getPosition().add(MathExtension.onUnitCircle().scale(SHAKE_INTENSITY)));
-            else cameraTransform.setPosition(landingPosition);
+
+            else
+                cameraTransform.setPosition(landingPosition);
 
             even = !even;
         }

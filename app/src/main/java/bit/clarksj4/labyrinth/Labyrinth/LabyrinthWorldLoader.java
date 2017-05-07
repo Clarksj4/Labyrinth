@@ -15,6 +15,7 @@ import bit.clarksj4.labyrinth.Engine.TileMap;
 import bit.clarksj4.labyrinth.Engine.TileMapRenderer;
 import bit.clarksj4.labyrinth.Engine.Vector;
 import bit.clarksj4.labyrinth.Engine.Viewport;
+import bit.clarksj4.labyrinth.Engine.World;
 import bit.clarksj4.labyrinth.Engine.WorldLoader;
 
 /**
