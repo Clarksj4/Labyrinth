@@ -5,6 +5,8 @@ package bit.clarksj4.labyrinth.Engine;
 import android.content.Context;
 import android.view.SurfaceView;
 
+import bit.clarksj4.labyrinth.Labyrinth.AndroidAssetInstaller;
+
 /**
  * Game base class. Descend from this class to make a game object for each platform.
  */

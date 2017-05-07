@@ -1,6 +1,7 @@
 package bit.clarksj4.labyrinth.Engine;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Stephen on 30/11/2016.
@@ -17,6 +18,14 @@ public class CollectionExtension
     public static <T> T popRandom(ArrayList<T> list)
     {
         int index = MathExtension.random(list.size());
+        T item = list.get(index);
+        list.remove(index);
+        return  item;
+    }
+
+    public static <T> T popRandom(ArrayList<T> list, Random random)
+    {
+        int index = random.nextInt(list.size());
         T item = list.get(index);
         list.remove(index);
         return  item;

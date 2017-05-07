@@ -1,5 +1,7 @@
 package bit.clarksj4.labyrinth.Labyrinth;
 
+import java.util.Random;
+
 import bit.clarksj4.labyrinth.Engine.Animation;
 import bit.clarksj4.labyrinth.Engine.AnimationController;
 import bit.clarksj4.labyrinth.Engine.Assets;
@@ -24,6 +26,8 @@ public class Labyrinth extends Component
 {
     private String doorPrefab = "Door";
     private TileMap tileMap;
+    private Random random;
+    private long seed = 1;
 
     public Labyrinth(GameObject gameObject)
     {
@@ -34,8 +38,9 @@ public class Labyrinth extends Component
     public void start()
     {
         tileMap = getComponent(TileMap.class);
+        random = new Random(seed);
 
-        int[][] tiles = MazeGenerator.generate(20, 20);
+        int[][] tiles = MazeGenerator.generate(20, 20, random);
         tileMap.setTiles(tiles);
 
         placeHoles();
@@ -66,8 +71,8 @@ public class Labyrinth extends Component
                 Tile tile = tileMap.getTile(column, row);
                 if (tile.getValue() == 3)
                 {
-                    // 50% chance to turn wall into hole
-                    if (Math.random() > 0.75f)
+                    // 25% chance to turn wall into hole
+                    if (random.nextFloat() > 0.75f)
                         tile.setValue(2);
                 }
             }
@@ -145,16 +150,16 @@ public class Labyrinth extends Component
         return outerWall;
     }
 
-    public Coordinate randomOuterWall()
+    private Coordinate randomOuterWall()
     {
         int columns = tileMap.getColumns();
         int rows = tileMap.getRows();
 
         // Wall will be on the left or right side
-        if (MathExtension.random())
+        if (random.nextBoolean())
         {
-            int column = MathExtension.random() ? 0 : columns - 1;  // Left or right column
-            int row = MathExtension.random(rows);                   // Random row
+            int column = random.nextBoolean() ? 0 : columns - 1;    // Left or right column
+            int row = random.nextInt(rows);                         // Random row
 
             return new Coordinate(column, row);
         }
@@ -162,8 +167,8 @@ public class Labyrinth extends Component
         // Wall will be on the top or bottom side
         else
         {
-            int column = MathExtension.random(columns);             // Random column
-            int row = MathExtension.random() ? 0 : columns - 1;     // Top or bottom row
+            int column = random.nextInt(columns);                    // Random column
+            int row = random.nextBoolean() ? 0 : columns - 1;        // Top or bottom row
 
             return new Coordinate(column, row);
         }
