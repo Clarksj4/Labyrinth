@@ -2,9 +2,6 @@ package bit.clarksj4.labyrinth.Engine;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -34,7 +31,6 @@ public class AndroidGameContext extends GameContext
 
     private MediaPlayer mediaPlayer;
     private Context context;
-    private Resources resources;
     private Vibrator vibrator;
 
     private SensorManager sensorManager;
@@ -46,7 +42,6 @@ public class AndroidGameContext extends GameContext
     public AndroidGameContext(Context context)
     {
         this.context = context;
-        resources = context.getResources();
 
         vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -67,16 +62,6 @@ public class AndroidGameContext extends GameContext
         mediaPlayer = MediaPlayer.create(context, resID);
         //player.setVolume(leftVolume, rightVolume);
         mediaPlayer.start();
-    }
-
-    public Bitmap getBitmap(String name)
-    {
-        // Get identifier by name
-        int identifier = resources.getIdentifier(name, "drawable", context.getPackageName());
-
-        // Load and return the corresponding image
-        return BitmapFactory.decodeResource(resources, identifier);
-
     }
 
     @Override

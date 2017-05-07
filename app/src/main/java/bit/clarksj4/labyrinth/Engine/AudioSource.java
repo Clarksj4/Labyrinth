@@ -21,6 +21,7 @@ public class AudioSource extends Component
 
     /**
      * An audio source component attached to the given game object
+     * @param gameObject
      */
     public AudioSource(GameObject gameObject)
     {
