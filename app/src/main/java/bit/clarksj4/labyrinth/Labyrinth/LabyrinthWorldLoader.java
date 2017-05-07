@@ -3,8 +3,6 @@ package bit.clarksj4.labyrinth.Labyrinth;
 import android.graphics.Bitmap;
 
 import bit.clarksj4.labyrinth.Engine.Assets;
-import bit.clarksj4.labyrinth.Engine.AudioListener;
-import bit.clarksj4.labyrinth.Engine.AudioSource;
 import bit.clarksj4.labyrinth.Engine.Collider;
 import bit.clarksj4.labyrinth.Engine.Animation;
 import bit.clarksj4.labyrinth.Engine.AnimationController;
@@ -58,7 +56,6 @@ public class LabyrinthWorldLoader extends WorldLoader
         //
         GameObject viewportObject = new GameObject("Viewport");
         viewportObject.addComponent(Viewport.class);
-        viewportObject.addComponent(AudioListener.class);
 
         //
         // Tile map
@@ -83,7 +80,6 @@ public class LabyrinthWorldLoader extends WorldLoader
         viewportObject.getTransform().setLocalPosition(Vector.zero());          // Centered on dwarf
         dwarfObject.addComponent(Dwarf.class);                                  // Dwarf script
         dwarfObject.addComponent(AccelerometerGravity.class);                   // Gravity script
-        dwarfObject.addComponent(AudioSource.class);
 
         // AnimationController
         AnimationController dwarfAnimationController = dwarfObject.addComponent(AnimationController.class);

@@ -38,7 +38,6 @@ public class Game
     private Game(GameContext context)
     {
         this.context = context;
-        Audio.init(context);
         Assets.init(context);
         Input.init(context);
         Hardware.init(context);
@@ -67,15 +66,6 @@ public class Game
         {
             Time.stop();
             context.gamePaused();
-
-            World.current().end();
-
-            Assets.release();
-            Audio.release();
-            Graphics.release();
-            Hardware.release();
-            Input.release();
-            Physics.release();
         }
     }
 

@@ -9,7 +9,6 @@ import android.view.SurfaceView;
  */
 public class Display
 {
-    // TODO: clear reference to display when game pauses, get new reference to surface view when resumed
     // TODO: Use display density to adjust sizes of things at startup
 
     private SurfaceView surfaceView;

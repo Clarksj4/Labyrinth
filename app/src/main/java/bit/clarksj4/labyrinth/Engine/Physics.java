@@ -20,19 +20,6 @@ public class Physics
     private static LinkedList<Rigidbody> rigidbodies = new LinkedList<>();
     private static TileMap _tileMap;
 
-    static void init()
-    {
-        colliders = new LinkedList<>();
-        rigidbodies = new LinkedList<>();
-    }
-
-    static void release()
-    {
-        colliders = null;
-        rigidbodies = null;
-        _tileMap = null;
-    }
-
     /**
      * Moves each rigidbody registered to this physics object then checks for collisions
      */

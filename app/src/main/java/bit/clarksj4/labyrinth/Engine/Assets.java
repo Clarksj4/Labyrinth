@@ -85,15 +85,6 @@ public class Assets
         gson = gsonBuilder.create();
     }
 
-    static void release()
-    {
-        commit();
-
-        gson = null;
-        preferences = null;
-        _context = null;
-    }
-
     static void commit()
     {
         _context.savePreferences(preferences);

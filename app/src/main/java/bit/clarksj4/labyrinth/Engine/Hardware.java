@@ -13,11 +13,6 @@ public class Hardware
         _context = context;
     }
 
-    static void release()
-    {
-        _context = null;
-    }
-
     public static void vibrate(long milliseconds)
     {
         _context.vibrate(milliseconds);

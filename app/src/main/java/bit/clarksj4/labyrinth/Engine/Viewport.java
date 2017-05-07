@@ -41,9 +41,6 @@ public class Viewport extends Component
     @Override
     public void start()
     {
-        if (_main == null)
-            _main = this;
-
         // TODO: Display doesn't know its width or height until now, find how to set these values earlier (maybe use normalized values)
         setSourceMagnitude(DEFAULT_MAGNITUDE);
         destinationBounds = new Rectangle(Vector.zero(), display.getSize());
@@ -54,7 +51,6 @@ public class Viewport extends Component
     {
         // Remove reference from Graphics object
         Graphics.removeViewport(this);
-        _main = null;
     }
 
     /**
